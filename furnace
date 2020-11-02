@@ -1,0 +1,2 @@
+#!/bin/bash
+ls /dev/tty.* | grep modem | cut -d ':' -f 2 | cut -d ' ' -f 2 | python3 readArduino.py
