@@ -36,7 +36,7 @@ void loop() {
     reading = analogRead(A0);
     while (reading == 0) {
       delay(250);
-      reading = analagRead(A0);
+      reading = analogRead(A0);
     }
     Serial.println(reading, 3);
     waitForZero = true;
