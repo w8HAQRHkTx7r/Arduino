@@ -1,5 +1,5 @@
 void putString(String s) {
-//  Serial.print(s);
+//  Serial.println(s);
 }
 
 void setup() {
@@ -7,7 +7,7 @@ void setup() {
   putString("Start tracking...");
   int reading = analogRead(A0);
   putString("First SEND and first reading...");
-  Serial.println(reading,1);
+  Serial.println(reading);
 }
 
 int reading = 0;
@@ -23,15 +23,15 @@ void loop() {
   count = 0;
   total = 0;
   reading = analogRead(A0);
-  if (reading == 0) {
-    Serial.println(0.0,4);
-  }
+//  if (reading == 0) {
+//    Serial.println(0.0,4);
+//  }
   putString("Check for string of zeros");
   while (reading == 0) {
     delay(500);
     reading = analogRead(A0);
   }
-  putString("No zeros");
+  putString("None zero found");
   total += reading;
   count++;
   for(uint32_t tStart = millis();  (millis()-tStart) < period;  ) {
@@ -45,12 +45,17 @@ void loop() {
     count++;
     delay(500);
   }
-  putString("SEND average: ");
-  average = total / count;
-  Serial.println(average,3);
+  // Suppress spurious readings
+  if (count >= 3) {
+    putString("SEND average: ");
+    average = float(total) / float(count);
+    Serial.println(average,2);
+    }
+
   if (zero) {
     delay(1050);
-    Serial.println(0.0,2);
+    Serial.println(0.0,1);
     zero = false;
   }
+
 }
