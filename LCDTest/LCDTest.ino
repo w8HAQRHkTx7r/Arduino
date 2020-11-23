@@ -66,7 +66,7 @@ String command = "";
 
 // Make custom symbols
 // "degree"
-byte degree[8] = {
+byte degree[] = {
   B00110,
   B01001,
   B01001,
@@ -77,7 +77,7 @@ byte degree[8] = {
 };
 
 // "Azimuth"
-byte Azi[8] = {
+byte Azi[] = {
   B01000,
   B10100,
   B11100,
@@ -88,7 +88,7 @@ byte Azi[8] = {
 };
 
 // "Altitude"
-byte Alt[8] = {
+byte Alt[] = {
   B01000,
   B10100,
   B11100,
@@ -109,10 +109,6 @@ void setup() {
   lcd.write("Waiting for data");
   delay(200);
 }
-
-void readSerialPort() {
-}
-
 
 void loop() {
   if (stringComplete) {

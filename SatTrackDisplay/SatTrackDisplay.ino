@@ -56,16 +56,15 @@
 // initialize the library with the numbers of the interface pins
 LiquidCrystal lcd(7, 8, 9, 10, 11, 12);
 
-int azimuth;
-int altitude;
+String azimuth;
+String altitude;
 
 // place to store incoming characters
-String inputBuffer = "";
-bool stringComplete = false;
-String command = "";
+String inputBuffer    = "";
+bool   stringComplete = false;
+char   command;
 
 // Make custom symbols
-// "degree"
 byte degree[8] = {
   B00110,
   B01001,
@@ -74,47 +73,141 @@ byte degree[8] = {
   B00000,
   B00000,
   B00000,
+  B00000,
 };
 
-// "Azimuth"
-byte Azi[8] = {
+byte az[8] = {
   B01000,
   B10100,
   B11100,
   B10100,
   B00111,
+  B00001,
   B00010,
   B00111,
 };
 
-// "Altitude"
-byte Alt[8] = {
+byte al[8] = {
   B01000,
   B10100,
   B11100,
   B10100,
-  B00100,
-  B00100,
-  B00111,
+  B00010,
+  B00010,
+  B00010,
+  B00011,
 };
+
+byte angle[8] = {
+  B00000,
+  B00000,
+  B00000,
+  B00001,
+  B00010,
+  B00100,
+  B01010,
+  B11111,
+};
+
+byte compass[8] = {
+  B00100,
+  B01110,
+  B11111,
+  B10101,
+  B00100,
+  B00100,
+  B00100,
+  B00100,
+};
+
+// Custom character names
+#define DEGREE  byte(0)
+#define AZ      byte(1)
+#define AL      byte(2)
+#define ANGLE   byte(3)
+#define COMPASS byte(4)
+
+void displayAzAl() {
+  lcd.setCursor(0,1);
+  
+  char s[17];
+  snprintf(s, sizeof(s), "%7s%8s",azimuth.c_str(),altitude.c_str());
+  lcd.print(s);
+
+  lcd.setCursor(0,1);
+  lcd.write(COMPASS);
+  lcd.setCursor(7,1);
+  lcd.write(DEGREE);
+  lcd.write(ANGLE);
+  lcd.setCursor(15,1);
+  lcd.write(DEGREE);
+//  lcd.write(byte(2));
+//  lcd.write(byte(3));
+//  lcd.write(byte(4));
+}
+
+void writeLine(int row) {
+  lcd.setCursor(0,row);
+  lcd.print("                ");
+  lcd.setCursor(0,row);
+  lcd.print(inputBuffer.substring(1));
+}
 
 void setup() {
   // set up the LCD's number of columns and rows:
   Serial.begin(9600);
   lcd.begin(16, 2);
+  
   lcd.createChar(0, degree);
-  lcd.createChar(1, Azi);
-  lcd.createChar(2, Alt);
+  lcd.createChar(1, az);
+  lcd.createChar(2, al);
+  lcd.createChar(3, angle);
+  lcd.createChar(4, compass);
+  
   lcd.clear();
-  lcd.write("Waiting for data");
+  lcd.print("Waiting for data");
+
   delay(200);
 }
 
-void readSerialPort() {
-}
-
-
 void loop() {
+  if (stringComplete) {
+    
+    String strfirstChar;
+    strfirstChar = inputBuffer[0];
+    strfirstChar.toLowerCase();
+    char command = strfirstChar[0];
+    
+    switch (command) {
+      case '1':
+        writeLine(0);
+        break;
+      case '2':
+        writeLine(1);
+        break;
+      case 'z':
+        azimuth = inputBuffer.substring(1);
+        displayAzAl();
+        break;
+      case 'l':
+        altitude = inputBuffer.substring(1);
+        displayAzAl();
+        break;
+      default:
+        lcd.clear();
+        lcd.print("BAD\nCOMMAND");
+        lcd.setCursor(0,1);
+        lcd.print(inputBuffer);
+        break;
+    }
+
+    inputBuffer = "";
+    stringComplete = false;
+    
+    }
+  }
+  
+/*   
   if (stringComplete) {
     if (inputBuffer.startsWith("1")) {
       // Print a text message to line 1
@@ -133,11 +226,9 @@ void loop() {
       lcd.setCursor(0,1);
       lcd.print(inputBuffer);
     }
-    inputBuffer = "";
-    stringComplete = false;
-  }
+   }
+
   
-/*   
   lcd.setCursor(0, 0);
   lcd.write("ISS is at");
   
@@ -151,8 +242,10 @@ void loop() {
   lcd.write(byte(0));
 */
 
-}
 
+// This is apparently some sort of interrupt handler
+// I believe it is automaatically called whenever
+// a characters comes down the serial port
 void serialEvent() {
   while (Serial.available()) {
     char inChar = (char)Serial.read();
