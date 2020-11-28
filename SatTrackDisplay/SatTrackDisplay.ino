@@ -1,12 +1,15 @@
-// This is an operations test of the 1602 LCD that came with my Elegoo Uno R3 Starter Kit.
-// It displays some text on line 1 and random integers representing azimuth and altitude of the ISS
-// on line 2.  
-// The loop runs every second.
-// This code does not test turning the backlight on and off.
-// The wiring diagram is based on the diagram that came with the Starter Kit.
-
-
-
+/*
+ * This sketch receives commands from serial port and displays the data on the LCD
+ * There are four commands
+ * 1<msg> -- displays msg on first line
+ * 2<msg> -- display msg on the second line
+ * z<azimuth> -- display the 999.99 value as the azimuth
+ * l<altitude> -- display the 99.99 value as the altitude
+ * The formatting of the lines is entirely up to the Arduino. Formatting decisions such
+ * as blink, centered, justified, etc. is fluid.  These are extensible.  E.g., 
+ * b0 and b1 can be coded to backlight off and blackligh on.
+ * 
+*/
 // www.elegoo.com
 // 2016.12.9
 
@@ -141,9 +144,6 @@ void displayAzAl() {
   lcd.write(ANGLE);
   lcd.setCursor(15,1);
   lcd.write(DEGREE);
-//  lcd.write(byte(2));
-//  lcd.write(byte(3));
-//  lcd.write(byte(4));
 }
 
 void writeLine(int row) {
@@ -157,6 +157,8 @@ void setup() {
   // set up the LCD's number of columns and rows:
   Serial.begin(9600);
   lcd.begin(16, 2);
+  lcd.clear();
+  lcd.print("Waiting for data");
   
   lcd.createChar(0, degree);
   lcd.createChar(1, az);
@@ -164,9 +166,6 @@ void setup() {
   lcd.createChar(3, angle);
   lcd.createChar(4, compass);
   
-  lcd.clear();
-  lcd.print("Waiting for data");
-
   delay(200);
 }
 
@@ -206,46 +205,11 @@ void loop() {
     
     }
   }
-  
-/*   
-  if (stringComplete) {
-    if (inputBuffer.startsWith("1")) {
-      // Print a text message to line 1
-      lcd.setCursor(0,0);
-      lcd.print(inputBuffer.substring(1));
-    }
-    else if (inputBuffer.startsWith("2")) {
-      // Print Azimuth
-      lcd.setCursor(0,1);
-      lcd.print(inputBuffer.substring(1));
-    }
-    else {
-      // Print unknown input error
-      lcd.clear();
-      lcd.print("BAD COMMAND");
-      lcd.setCursor(0,1);
-      lcd.print(inputBuffer);
-    }
-   }
-
-  
-  lcd.setCursor(0, 0);
-  lcd.write("ISS is at");
-  
-  lcd.setCursor(0, 1);
-  lcd.write("Az: ");
-  lcd.print(azimuth);
-  lcd.write(byte(0));
-
-  lcd.write(" Al: ");
-  lcd.print(altitude);
-  lcd.write(byte(0));
-*/
-
 
 // This is apparently some sort of interrupt handler
 // I believe it is automaatically called whenever
 // a characters comes down the serial port
+
 void serialEvent() {
   while (Serial.available()) {
     char inChar = (char)Serial.read();
