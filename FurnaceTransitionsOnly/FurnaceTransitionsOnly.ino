@@ -1,3 +1,10 @@
+// Using the $10 anemometer that I bought on eBay, I wrote this to transmit (over the serial port) readings of the relative rotation speed
+// The red wire goes to A0 on the Arduino and the yellow wire goes to GND on the Arduino.
+
+// Strategy:  If the prior reading was zero and the current reading is zero -- then don't transmit anything.  There's no point.
+//            If the prior reading was non-zero, average the current reading into a running average.  Reset the average after
+//               one minute (to avoid data collection overload) or a reading of zero is received.
+
 void putString(String s) {
 //  Serial.print(s);
 }
@@ -61,7 +68,8 @@ void loop() {
       delay(250);
       reading = analogRead(A0);
     }
-    Serial.println(32.0, 3);
+//    Serial.println(32.0, 3);  // WTF?! Why write a constant?  s/b (reading,3)??                     
+    Serial.println(reading, 3);  // changed 1/20/20.  Not immediately implemented.                     
     waitForZero = true;
   }
 }
