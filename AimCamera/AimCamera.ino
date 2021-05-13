@@ -15,9 +15,14 @@ Servo pan;  // create servo object to control a servo
 Servo tilt;
 
 // Pan / Tilt
+int panOffset = 0;
+int tiltOffset = 0;
+
 int tiltAngle = 90;
 int panAngle = 90;
+
 int buttonPush = 1;
+
 int settle = 3000;
 
 float x;
@@ -26,44 +31,57 @@ float y;
 void setup() {
   // Enable the push button
   pinMode(SW_pin, INPUT);
+  // Pull up the resister
   digitalWrite(SW_pin, HIGH);
   
-  pan.attach(9);  // attaches the servo on pin 9 to the servo object
+  // attaches pin 9/10 to the servo objects
+  pan.attach(9);
   tilt.attach(10);
 }
 
+void logString(String) {
+
+}
+
+void logInt(int) {
+  
+}
 void loop() {
+  // Check for reset
   buttonPush =  digitalRead(SW_pin);
   if (buttonPush == 0) {
-//    Serial.println("--- RESET ---");
-    tiltAngle = 90;
-    panAngle = 90;
+    logString("--- RESET ---");
+    tiltOffset = 0;
+    panOffset = 0;
   }
+  
   // Point the camera for left eye
-//  Serial.println("Aim the camera");
-//  Serial.print("   Tilt Angle = "); Serial.println(tiltAngle);
-//  Serial.print("   Pan Angle  = "); Serial.println(panAngle);
-  tilt.write(tiltAngle);
-  pan.write(panAngle);
+  logString("Aim the camera\n   Tilt Angle = "); 
+  logInt(tiltAngle);
+  logString("   Pan Angle  = "); 
+  logInt(panAngle);
+
+//  tilt.write(tiltAngle);
+//  pan.write(panAngle);
 
   x = analogRead(X_pin);
   if (x > 900) {
-    panAngle += 1;
+    panOffset += 1;
   }
   if (x < 100) {
-    panAngle -= 1;
+    panOffset -= 1;
   }
-  pan.write(panAngle);
+  pan.write(panAngle+panOffset);
   
   y = analogRead(Y_pin);
   if (y > 900) {
-    tiltAngle -= 1;
+    tiltOffset -= 1;
   }
   if (y < 100) {
-    tiltAngle += 1;
+    tiltOffset += 1;
   }
-  tilt.write(tiltAngle);
+  tilt.write(tiltAngle+tiltOffset);
 
-  delay(250);
+  delay(100);
 
 }
