@@ -8,14 +8,19 @@
 #include <Servo.h>
 #include <AccelStepper.h>
 
+// Arduino pin numbers
+const int SW_pin = 2; // digital pin connected to switch output
+const int X_pin = 0; // analog pin connected to X output
+const int Y_pin = 1; // analog pin connected to Y output
+
 Servo pan;  // create servo object to control a servo
 Servo tilt;
 
 // Define some steppers and the pins the will use
-int IN11 = 2;
-int IN21 = 3;
-int IN31 = 4;
-int IN41 = 5;
+int IN11 = 3;
+int IN21 = 4;
+int IN31 = 5;
+int IN41 = 6;
 
 AccelStepper stepper1(AccelStepper::FULL4WIRE, IN11, IN31, IN21, IN41);  // UNL Stepper Driver sequence
 
@@ -29,14 +34,20 @@ int distance = 510
 int millisecondsHold = 3000;
 
 // Pan / Tilt
-int tiltMax = 88;
-int tiltMin = 88;
-int panMaxRightEye = 92;
-int panMinLeftEye = 88;
+int tiltMax = 90;
+int tiltMin = 90;
+int panMaxRightEye = 90;
+int panMinLeftEye = 90;
 int settle = 3000;
 
+float x;
+float y;
 
 void setup() {
+  // Enable the push button
+  pinMode(SW_pin, INPUT);
+  digitalWrite(SW_pin, HIGH);
+  
   pan.attach(9);  // attaches the servo on pin 9 to the servo object
   tilt.attach(10);
 
