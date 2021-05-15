@@ -1,8 +1,8 @@
-/* 
- *  Stereo photography rig
- *  ======================
- *  Control a linear acctuator
- *  Control a pan/tilt
+/*
+    Stereo photography rig
+    ======================
+    Control a linear acctuator
+    Control a pan/tilt
 */
 
 #include <Servo.h>
@@ -29,11 +29,15 @@ String inputBuffer = "";
 bool stringComplete = false;
 int pos = 0;
 String direction = "";
-int distance = 510
-;
+int distance = 480;
 int millisecondsHold = 3000;
 
 // Pan / Tilt
+int panOffset = 0;
+int tiltOffset = 0;
+int tiltAngle = 90;
+int panAngle = 90;
+
 int tiltMax = 90;
 int tiltMin = 90;
 int panMaxRightEye = 90;
@@ -43,20 +47,50 @@ int settle = 3000;
 float x;
 float y;
 
+bool aimCam() {
+  do {
+    x = analogRead(X_pin);
+    if (x > 900) {
+      panOffset += 1;
+    }
+    if (x < 100) {
+      panOffset -= 1;
+    }
+    pan.write(panAngle + panOffset);
+
+    y = analogRead(Y_pin);
+    if (y > 900) {
+      tiltOffset -= 1;
+    }
+    if (y < 100) {
+      tiltOffset += 1;
+    }
+    tilt.write(tiltAngle + tiltOffset);
+    delay(50);
+
+  }  while (digitalRead(SW_pin) == 1);
+  tiltAngle += tiltOffset;
+  panMaxRightEye -= panOffset;
+  panMinLeftEye  += panOffset;
+  return;
+}
+
 void setup() {
   // Enable the push button
   pinMode(SW_pin, INPUT);
   digitalWrite(SW_pin, HIGH);
-  
+
   pan.attach(9);  // attaches the servo on pin 9 to the servo object
   tilt.attach(10);
 
   stepper1.setMaxSpeed(1000.0);
   stepper1.setAcceleration(100.0);
   stepper1.runToNewPosition(0);
-  
+
   Serial.begin(9600);
   Serial.println("\n=========\nBegin session\n");
+
+  aimCam();
 
 }
 
@@ -76,7 +110,7 @@ void loop() {
   // Take first picture
   Serial.println("Take the left eye picture");
   delay(settle);
-  
+
   // Point the camera for the right eye
   Serial.println("\nPoint the camera for the right eye");
   Serial.print("   Tilt to "); Serial.println(tiltMin);
