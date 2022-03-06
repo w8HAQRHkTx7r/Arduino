@@ -41,9 +41,9 @@ void setup() {
   strip.setBrightness(BRIGHTNESS);
   strip.updateLength(LED_COUNT);
 
-  Serial.begin(9600);
+//  Serial.begin(9600);
   delay(5000);
-  Serial.println("start");
+//  Serial.println("start");
 }
 
 void loop() {
@@ -59,12 +59,12 @@ void loop() {
   int scanspeed = 45;
   int scanleds = 4;
 
-//  larsenScan(scanleds, 0x600000, scanspeed);
-//  larsenScan(scanleds, 0x006000, scanspeed);
-//  larsenScan(scanleds, 0x000060, scanspeed);
+  larsenScan(scanleds, 0x600000, scanspeed);
+  larsenScan(scanleds, 0x006000, scanspeed);
+  larsenScan(scanleds, 0x000060, scanspeed);
   larsenScan(scanleds, 0x602000, scanspeed);
 
-  larsenInterference(scanleds, 0x101010, scanspeed);
+  larsenInterference(scanleds, 0x100000, scanspeed);
 
 }
 
@@ -72,20 +72,38 @@ int redStart(int i) {
   return i;
 }
 int redEnd(int i, int count) {
-  return i + count;
+  return i + count - 1;
+}
+
+int blueStart(int i, int count) {
+  return LED_COUNT - i - count;
+}
+
+int blueEnd(int i) {
+  return LED_COUNT - 1 - i;
 }
 
 void larsenInterference(int count, uint32_t color, int wait) {
-  for (int i = 0; i < LED_COUNT - count - 1; i++) {
-    Serial.print(i);
-    Serial.print(redStart(i));
-    Serial.print(redEnd(i, count));
-    Serial.println("");
-    strip.fill(color, redStart(i), count); 
+  strip.fill(color, 0, count);
+  strip.fill(0x000060, LED_COUNT - count, count);
+  strip.show();
+//  Serial.println("Forward");
+  for (int i = 0; i <= LED_COUNT - count; i++) {
+    strip.setPixelColor(redStart(i), 0x000000);
+    strip.setPixelColor(redEnd(i,count), color);
+    strip.setPixelColor(blueStart(i,count), 0x000060);
+    strip.setPixelColor(blueEnd(i), 0x000000);
     strip.show();
     delay(wait);    
-    strip.fill(0x000000, redStart(i), count); 
+  }
+//  Serial.println("Echo");
+  for (int i = LED_COUNT - count; i >= 0; i--) {
+    strip.setPixelColor(redStart(i), color);
+    strip.setPixelColor(redEnd(i,count), 0x000000);
+    strip.setPixelColor(blueStart(i, count), 0x000000);
+    strip.setPixelColor(blueEnd(i), 0x000060);
     strip.show();
+    delay(wait);
   }
 }
 

@@ -1,4 +1,5 @@
-// Using the $10 anemometer that I bought on eBay, I wrote this to transmit (over the serial port) readings of the relative rotation speed
+// Using the $10 anemometer that I bought on eBay, I wrote this to transmit (over the serial port) 
+// readings of the relative rotation speed
 // The red wire goes to A0 on the Arduino and the yellow wire goes to GND on the Arduino.
 
 // Strategy:  If the prior reading was zero and the current reading is zero -- then don't transmit anything.  There's no point.

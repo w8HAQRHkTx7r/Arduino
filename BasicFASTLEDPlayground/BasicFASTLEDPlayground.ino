@@ -1,16 +1,14 @@
+#define FASTLED_INTERNAL
 #include <FastLED.h>
 
-// How many leds in your strip?
-#define NUM_LEDS 15
+#define NUM_LEDS    256
+#define DATA_PIN      3
+#define CLOCK_PIN    13
+#define PAUSE        10
+#define BRIGHTNESS   30 
+#define VOLTS         5
+#define MAX_mAMPS   500
 
-// For led chips like WS2812, which have a data line, ground, and power, you just
-// need to define DATA_PIN.  For led chipsets that are SPI based (four wires - data, clock,
-// ground, and power), like the LPD8806 define both DATA_PIN and CLOCK_PIN
-// Clock pin only needed for SPI based chipsets when not using hardware SPI
-#define DATA_PIN 1
-//#define CLOCK_PIN 13
-
-// Define the array of leds
 CRGB leds[NUM_LEDS];
 
 void setup() { 
@@ -55,10 +53,23 @@ void setup() {
     // FastLED.addLeds<DOTSTAR, DATA_PIN, CLOCK_PIN, RGB>(leds, NUM_LEDS);  // BGR ordering is typical
     // FastLED.addLeds<APA102, DATA_PIN, CLOCK_PIN, RGB>(leds, NUM_LEDS);  // BGR ordering is typical
     // FastLED.addLeds<SK9822, DATA_PIN, CLOCK_PIN, RGB>(leds, NUM_LEDS);  // BGR ordering is typical
+      FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);  // GRB ordering is assumed
+      FastLED.setMaxPowerInVoltsAndMilliamps(VOLTS, MAX_mAMPS);
+      FastLED.setBrightness(BRIGHTNESS);
+      FastLED.clear();
+      FastLED.show();
 }
 
 void loop() { 
-//  leds[0] = CRGB::Green;
+  for (int i=0; i<256; i++) {
+    leds[i] = CRGB::Green;
+    FastLED.show();
+    delay(20);
+//    leds[i] = CRGB::Black;
+//    delay(25);
+  }
+  
+  leds[0] = CRGB::Green;
   leds[1] = CRGB::Red;
   FastLED.show();
   delay(1500);
