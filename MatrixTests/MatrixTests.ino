@@ -20,7 +20,7 @@ void setup() {
         
     FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);  // GRB ordering is assumed
     FastLED.setMaxPowerInVoltsAndMilliamps(VOLTS, MAX_mAMPS);
-    FastLED.setBrightness(BRIGHTNESS)
+    FastLED.setBrightness(BRIGHTNESS);
     FastLED.clear();
     FastLED.show();
     set_max_power_indicator_LED (BUILTIN_LED);
