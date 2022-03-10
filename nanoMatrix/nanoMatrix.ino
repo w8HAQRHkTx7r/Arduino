@@ -242,6 +242,6 @@ void loop() {
   delay(DELAY);
   ukrainianFlag();
   delay(DELAY);
-  scrollMatrixLeft(500);
-  delay(DELAY);
+//  scrollMatrixLeft(500);
+//  delay(DELAY);
 }
