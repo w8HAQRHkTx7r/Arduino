@@ -11,7 +11,7 @@
 #define MAX_mAMPS 500
 #define DELAY 3000
 
-#define DEBUG_BITMAP False
+#define DEBUG_BITMAP false
 
 CRGB leds[NUM_LEDS];
 
