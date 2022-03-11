@@ -22,7 +22,7 @@
 
 #define DELAY 3000  // delay in ms between matrix frame displays
 #define BITMAP_WIDTH 16  // number of bits in bitmap
-#define DEBUG_BITMAP false // print bitmap before showing on matrix
+#define DEBUG_BITMAP true // print bitmap before showing on matrix
 
 CRGB leds[NUM_LEDS];
 BitArray message;
