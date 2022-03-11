@@ -22,7 +22,7 @@
 
 #define DELAY 3000  // delay in ms between matrix frame displays
 #define BITMAP_WIDTH 16  // number of bits in bitmap
-#define DEBUG_BITMAP true // print bitmap before showing on matrix
+#define DEBUG_BITMAP false // print bitmap before showing on matrix
 
 CRGB leds[NUM_LEDS];
 BitArray message;
@@ -30,17 +30,21 @@ BitArray message;
 int lastMessageColumn = MESSAGE_WIDTH - 1;
 int currentMessageLine = 0;
 
-bool getNextMessageRow() {
+bool getNextMessageRow(int scrollDelay) {
+    for (int row = 0; row < MATRIX_HEIGHT; row++) {
+      leds[mapScreenToMatrix(row,15)] = CRGB::Black;
+    }
     uint16_t bitrow = message.get(currentMessageLine);
     for (int b = 0; b<LETTER_HEIGHT; b++) {
       if (bitRead(bitrow, b) == 1) {
-        leds[mapScreenToMatrix(b,15)] = 1;
+        leds[mapScreenToMatrix(b,15)] = CRGB::White;
       }
-      else {
-        leds[mapScreenToMatrix(b,15)] = 0;
-      }
+//      else {
+//        leds[mapScreenToMatrix(b,15)] = CRGB::Black;
+//      }
     }
     currentMessageLine++;
+    delay(scrollDelay);
     if (currentMessageLine > lastMessageColumn) {
       return false;
     }
@@ -57,7 +61,8 @@ bool scrollMatrixLeft(int scrollDelay) {
       leds[p] = leds[p + 1];
     }
   }
-  if (!getNextMessageRow()) {
+  FastLED.show();
+  if (!getNextMessageRow(scrollDelay)) {
     return false;
   }
   delay(scrollDelay);
@@ -235,6 +240,7 @@ void setup() {
 }
 
 void loop() {
+  Serial.println("start loop");
   if (DEBUG_BITMAP) {
     printBitmap(tryzub, CRGB::Yellow);
   }
@@ -242,6 +248,10 @@ void loop() {
   delay(DELAY);
   ukrainianFlag();
   delay(DELAY);
-//  scrollMatrixLeft(500);
-//  delay(DELAY);
+  FastLED.clear();
+  for (int col=0; col < MESSAGE_WIDTH; col++) {
+    scrollMatrixLeft(100);
+  }
+  currentMessageLine = 0;
+  delay(DELAY);
 }
