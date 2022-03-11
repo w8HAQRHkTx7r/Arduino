@@ -10,7 +10,7 @@
 // LED Matrix parameters
 #define MATRIX_HEIGHT 16
 #define MATRIX_WIDTH  16
-#define NUM_LEDS      MATRIX_HEIGHT * MATRIX_WIDTH
+#define NUM_LEDS      256
 #define LAST_LED      NUM_LEDS - 1
 
 #define DATA_PIN 3
@@ -155,7 +155,7 @@ int mapScreenToMatrix(int row, int col) {
 // show the bitmap in memory onto the matrix using color indicated
 void showBitmap(uint16_t bitmap[], CRGB myColor) {
   FastLED.clear();
-  for (int row = 0; row < (sizeof(bitmap)/sizeof(bitmap[0])); row++) {
+  for (int row = 0; row < 16; row++) {
     for (int col = 0; col < BITMAP_WIDTH; col++) {
       if (bitRead(bitmap[row], col)) {
         int ledIndex = mapScreenToMatrix(row,col);
@@ -169,7 +169,7 @@ void showBitmap(uint16_t bitmap[], CRGB myColor) {
 // print bitmap from memory
 void printBitmap(uint16_t bitmap[], CRGB myColor) {
   Serial.print(myColor);
-  for (int row = 0; row < (sizeof(bitmap)/sizeof(bitmap[0])); row++) {
+  for (int row = 0; row < 16; row++) {
     for (int col = 0; col < BITMAP_WIDTH; col++) {
       if (bitRead(bitmap[row], col)) {
         Serial.print("x");
@@ -177,8 +177,8 @@ void printBitmap(uint16_t bitmap[], CRGB myColor) {
         Serial.print(" ");
       }
     }
-  }
   Serial.println(" ");
+  }
 }
 
 // This is a degenerate form of showing the flag
