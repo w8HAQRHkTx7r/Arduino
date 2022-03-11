@@ -20,13 +20,9 @@
 #define VOLTS 5
 #define MAX_mAMPS 500
 
-<<<<<<< HEAD
-#define DEBUG_BITMAP false
-=======
 #define DELAY 3000  // delay in ms between matrix frame displays
 #define BITMAP_WIDTH 16  // number of bits in bitmap
 #define DEBUG_BITMAP false // print bitmap before showing on matrix
->>>>>>> slavascroll
 
 CRGB leds[NUM_LEDS];
 BitArray message;
