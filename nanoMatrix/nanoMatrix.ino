@@ -28,44 +28,48 @@ CRGB leds[NUM_LEDS];
 BitArray message;
 
 int lastMessageColumn = MESSAGE_WIDTH - 1;
-int currentMessageLine = 0;
+int currentMessageColumn = 0;
 
 bool getNextMessageRow(int scrollDelay) {
-    for (int row = 0; row < MATRIX_HEIGHT; row++) {
-      leds[mapScreenToMatrix(row,15)] = CRGB::Black;
+//  currentMessageColumn = currentMessageColumn % MESSAGE_WIDTH;
+  for (int row = 0; row < MATRIX_HEIGHT; row++) {
+    leds[mapScreenToMatrix(row, 15)] = CRGB::Black;
+  }
+  uint16_t bitrow = message.get(currentMessageColumn);
+  for (int b = 0; b < LETTER_HEIGHT; b++) {
+    if (bitRead(bitrow, b) == 1) {
+      leds[mapScreenToMatrix(b, 15)] = CRGB::White;
     }
-    uint16_t bitrow = message.get(currentMessageLine);
-    for (int b = 0; b<LETTER_HEIGHT; b++) {
-      if (bitRead(bitrow, b) == 1) {
-        leds[mapScreenToMatrix(b,15)] = CRGB::White;
-      }
-//      else {
-//        leds[mapScreenToMatrix(b,15)] = CRGB::Black;
-//      }
-    }
-    currentMessageLine++;
-    delay(scrollDelay);
-    if (currentMessageLine > lastMessageColumn) {
-      return false;
-    }
+  }
+  currentMessageColumn++;
+  delay(scrollDelay);
+  if (currentMessageColumn > lastMessageColumn) {
+    currentMessageColumn = 0;
+    return false;
+  }
 }
 
 bool scrollMatrixLeft(int scrollDelay) {
-  int x = MATRIX_WIDTH - 1;
-  int y = ((MATRIX_WIDTH - 1) * MATRIX_WIDTH) - 1;
-  for (int start = x; start <= y; start += MATRIX_WIDTH * 2) {
-    for (int p = start; p > start - (MATRIX_WIDTH - 1); p--) {
-      leds[p] = leds[p - 1];
+  FastLED.clear();
+  for (int col = 0; col < MESSAGE_WIDTH; col++) {
+    int x = MATRIX_WIDTH - 1;
+    int y = ((MATRIX_WIDTH - 1) * MATRIX_WIDTH) - 1;
+    for (int start = x; start <= y; start += MATRIX_WIDTH * 2) {
+      for (int p = start; p > start - (MATRIX_WIDTH - 1); p--) {
+        leds[p] = leds[p - 1];
+      }
+      for (int p = start + 1; p < start + 1 + (MATRIX_WIDTH - 1); p++) {
+        leds[p] = leds[p + 1];
+      }
     }
-    for (int p = start + 1; p < start + 1 + (MATRIX_WIDTH - 1); p++) {
-      leds[p] = leds[p + 1];
+    FastLED.show();
+    if (!getNextMessageRow(scrollDelay)) {
+      return false;
+    } else {
+          FastLED.show();
     }
+    delay(scrollDelay);
   }
-  FastLED.show();
-  if (!getNextMessageRow(scrollDelay)) {
-    return false;
-  }
-  delay(scrollDelay);
 }
 
 void defineAlphabet() {
@@ -150,7 +154,7 @@ void defineAlphabet() {
 
 // Convert from (0,0) in upper left to matrix index
 int mapScreenToMatrix(int row, int col) {
-  // Switch from increasing left to right into 
+  // Switch from increasing left to right into
   // increasing right to left for even numbered rows
   // Then compute a linear pixel offset
   int newCol = (row % 2 == 0) ? newCol = (MATRIX_WIDTH - 1) - col : newCol = col;
@@ -163,7 +167,7 @@ void showBitmap(uint16_t bitmap[], CRGB myColor) {
   for (int row = 0; row < 16; row++) {
     for (int col = 0; col < BITMAP_WIDTH; col++) {
       if (bitRead(bitmap[row], col)) {
-        int ledIndex = mapScreenToMatrix(row,col);
+        int ledIndex = mapScreenToMatrix(row, col);
         leds[ledIndex] = myColor;
       }
     }
@@ -182,7 +186,7 @@ void printBitmap(uint16_t bitmap[], CRGB myColor) {
         Serial.print(" ");
       }
     }
-  Serial.println(" ");
+    Serial.println(" ");
   }
 }
 
@@ -220,7 +224,6 @@ uint16_t tryzub[16] = {
   0b0000000100000000
 };
 
-
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
 
@@ -248,10 +251,6 @@ void loop() {
   delay(DELAY);
   ukrainianFlag();
   delay(DELAY);
-  FastLED.clear();
-  for (int col=0; col < MESSAGE_WIDTH; col++) {
-    scrollMatrixLeft(100);
-  }
-  currentMessageLine = 0;
+  scrollMatrixLeft(100);
   delay(DELAY);
 }
