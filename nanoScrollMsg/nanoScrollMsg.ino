@@ -7,14 +7,13 @@
 #include "MACELib.h"
 
 // Message parameters
-#define MESSAGE_WIDTH 75 // The number of columns in the messasge This should be calculable
-#define LETTER_HEIGHT 12
+#define MESSAGE_WIDTH 80 // The number of columns in the messasge This should be calculable
+#define LETTER_HEIGHT 12 // Number of rows in each letter
 
 // LED Matrix parameters
 #define MATRIX_HEIGHT 16
 #define MATRIX_WIDTH  16
-#define NUM_LEDS      256 // MATRIX_HEIGHT * MATRIX_WIDTH
-//#define LAST_LED      NUM_LEDS - 1
+#define NUM_LEDS      MATRIX_HEIGHT * MATRIX_WIDTH
 
 #define DATA_PIN 3
 #define CLOCK_PIN 13
@@ -24,10 +23,11 @@
 #define MAX_mAMPS 500
 
 #define SPEED 100
-//#define DELAY 3000  // delay in ms between matrix frame displays
-//#define BITMAP_WIDTH 16  // number of bits in bitmap
+#define printMatrix false
 
 CRGB leds[NUM_LEDS];
+CRGB color = CRGB::White;
+
 BitArray message;
 
 int lastMessageColumn = MESSAGE_WIDTH - 1;
@@ -40,14 +40,14 @@ void getNextMessageRow() {
   uint16_t bitrow = message.get(currentMessageColumn);
   for (int b = 0; b < LETTER_HEIGHT; b++) {
     if (bitRead(bitrow, b) == 1) {
-      leds[mapScreenToMatrix(b, MATRIX_WIDTH - 1)] = CRGB::White;
+      leds[mapScreenToMatrix(b, 15)] = CRGB::White;
     }
   }
-  currentMessageColumn = currentMessageColumn % MESSAGE_WIDTH;
+  currentMessageColumn = (currentMessageColumn + 1) % MESSAGE_WIDTH;
 }
 
 void scrollMatrixLeft(int scrollDelay) {
-  FastLED.clear();
+//  FastLED.clear();
   for (int col = 0; col < MESSAGE_WIDTH; col++) {
     int x = MATRIX_WIDTH - 1; // index of leftmost pixel in the 0th row
     int y = ((MATRIX_WIDTH - 1) * MATRIX_WIDTH) - 1; // index of pixel to the left of the rightmost
@@ -60,9 +60,27 @@ void scrollMatrixLeft(int scrollDelay) {
       }
     }
     getNextMessageRow();
-    FastLED.show();    
+    FastLED.show();
     delay(scrollDelay);
+    if (printMatrix) {printLEDMatrix();}
   }
+}
+
+void printLEDMatrix() {
+  Serial.println("print LED matrix");
+  int x = MATRIX_WIDTH - 1; // index of leftmost pixel in the 0th row
+  int y = ((MATRIX_WIDTH - 1) * MATRIX_WIDTH) - 1; // index of pixel to the left of the rightmost
+  for (int start = x; start <= y; start += MATRIX_WIDTH * 2) {
+    for (int p = start; p >= start - (MATRIX_WIDTH - 1); p--) {
+      if (leds[p] == color) { Serial.print("@");} else {Serial.print(".");}
+    }
+    Serial.println(" ");
+    for (int p = start + 1; p <= start + 1 + (MATRIX_WIDTH - 1); p++) {
+      if (leds[p] == color) {Serial.print("@");} else {Serial.print(".");}
+    }
+    Serial.println(" ");
+  }
+  delay(250);
 }
 
 void slavaUkraine() {
@@ -143,6 +161,11 @@ void slavaUkraine() {
   message.set(72, 0x000);
   message.set(73, 0x000);
   message.set(74, 0x000);
+  message.set(75, 0x000);
+  message.set(76, 0x000);
+  message.set(77, 0x000);
+  message.set(78, 0x000);
+  message.set(79, 0x000);
 }
 
 // Convert from (0,0) in upper left to matrix index
@@ -154,10 +177,9 @@ int mapScreenToMatrix(int row, int col) {
   return row * MATRIX_WIDTH + newCol;
 }
 
-
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
-
+  cereal();
   FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);  // GRB ordering is assumed
   FastLED.setMaxPowerInVoltsAndMilliamps(VOLTS, MAX_mAMPS);
   set_max_power_indicator_LED(LED_BUILTIN);
