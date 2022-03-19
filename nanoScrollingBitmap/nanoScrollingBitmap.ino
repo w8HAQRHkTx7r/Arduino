@@ -5,14 +5,14 @@
 
 // Message parameters
 // #define MESSAGE_WIDTH 80 // The number of columns in the messasge This should be calculable
-#define LETTER_HEIGHT 12 // Number of rows in each letter. Possible less than MATRIX_HEIGHT
+// #define LETTER_HEIGHT 12 // Number of rows in each letter. Possible less than MATRIX_HEIGHT
 
 // LED Matrix parameters
 #define MATRIX_HEIGHT 16
 #define MATRIX_WIDTH  16
 #define NUM_LEDS      MATRIX_HEIGHT * MATRIX_WIDTH
 
-#define BITMAP_WIDTH  160
+// #define BITMAP_WIDTH  160
 #define DATA_PIN 3
 #define CLOCK_PIN 13
 #define PAUSE 10
@@ -203,7 +203,7 @@ int currentMessageColumn = 0;
 void printBitmap(uint16_t bitmap[], CRGB myColor) {
   Serial.println("Bitmap to follow:");
   Serial.println("fedcba9876543210 xxxx fedcba9876543210xxxx");
-  for (int row = 0; row < BITMAP_WIDTH; row++) {
+  for (int row = 0; row < MESSAGE_WIDTH; row++) {
   Serial.print(bitmap[row], BIN); Serial.print(" ");
   Serial.print(bitmap[row], HEX); Serial.print(" ");
     for (int col = 15; col >=0; col--) {
