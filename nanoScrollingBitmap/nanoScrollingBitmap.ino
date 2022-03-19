@@ -4,7 +4,7 @@
 #include <FastLED.h>
 
 // Message parameters
-#define MESSAGE_WIDTH 80 // The number of columns in the messasge This should be calculable
+// #define MESSAGE_WIDTH 80 // The number of columns in the messasge This should be calculable
 #define LETTER_HEIGHT 12 // Number of rows in each letter. Possible less than MATRIX_HEIGHT
 
 // LED Matrix parameters
@@ -25,9 +25,6 @@
 
 CRGB leds[NUM_LEDS];
 CRGB color = CRGB::White;
-
-int lastMessageColumn = MESSAGE_WIDTH - 1;
-int currentMessageColumn = 0;
 
 // These are the LED numbers for the last column of the matrix
 int ledsInLastColumn[] = {
@@ -198,6 +195,9 @@ uint16_t slava[] = {
 0x0000,
 0x0000
 };
+int MESSAGE_WIDTH = sizeof(slava) / sizeof(uint16_t);
+int lastMessageColumn = MESSAGE_WIDTH - 1;
+int currentMessageColumn = 0;
 
 // print bitmap from memory
 void printBitmap(uint16_t bitmap[], CRGB myColor) {
