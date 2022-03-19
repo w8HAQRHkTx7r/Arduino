@@ -196,7 +196,7 @@ uint16_t slava[] = {
 0x0000
 };
 int MESSAGE_WIDTH = sizeof(slava) / sizeof(uint16_t);
-int lastMessageColumn = MESSAGE_WIDTH - 1;
+// int lastMessageColumn = MESSAGE_WIDTH - 1;
 int currentMessageColumn = 0;
 
 // print bitmap from memory
