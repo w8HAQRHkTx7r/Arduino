@@ -199,11 +199,33 @@ int MESSAGE_WIDTH = sizeof(slava) / sizeof(uint16_t);
 // int lastMessageColumn = MESSAGE_WIDTH - 1;
 int currentMessageColumn = 0;
 
+void oldFunc(int var) {
+  for (int i = 0; i < 16; i++)  {
+    Serial.print(((var >> i) & 1) == 1 ? "1" : "0");
+  }
+}
+
+void newFunc(int var) {
+}
+
 // print bitmap from memory
 void printBitmap(uint16_t bitmap[], CRGB myColor) {
   Serial.println("Bitmap to follow:");
-  Serial.println("fedcba9876543210 xxxx fedcba9876543210xxxx");
+  Serial.println("xxxx  fedcba9876543210 fedcba9876543210");
+
+  // Print the symbols
   for (int row = 0; row < MESSAGE_WIDTH; row++) {
+    // Print the hex
+    char hexVal[4];
+    sprintf(hexVal, "%04X ", bitmap[row]);
+    Serial.print(hexVal); Serial.print(" ");
+    
+    // Print the binary
+    for (unsigned int test = 0x8000; test; test >>= 1) {
+      Serial.print(bitmap[row] & test ? '1' : '0');
+    }
+    Serial.print(" ");
+    
     for (int col = 15; col >=0; col--) {
       if (bitRead(bitmap[row], col)) {
         Serial.print("x");
@@ -211,8 +233,6 @@ void printBitmap(uint16_t bitmap[], CRGB myColor) {
         Serial.print(".");
       }
     }
-    Serial.print(bitmap[row], BIN); Serial.print(" ");
-    Serial.print(bitmap[row], HEX); Serial.print(" ");
     Serial.println(" ");
   }
 }
