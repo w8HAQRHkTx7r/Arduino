@@ -3,10 +3,6 @@
 #define FASTLED_INTERNAL
 #include <FastLED.h>
 
-// Message parameters
-// #define MESSAGE_WIDTH 80 // The number of columns in the messasge This should be calculable
-// #define LETTER_HEIGHT 12 // Number of rows in each letter. Possible less than MATRIX_HEIGHT
-
 // LED Matrix parameters
 #define MATRIX_HEIGHT 16
 #define MATRIX_WIDTH  16
@@ -21,7 +17,7 @@
 #define MAX_mAMPS 500
 
 #define SPEED 100
-#define printMatrix true
+#define DEBUG_PRINT false
 
 CRGB leds[NUM_LEDS];
 CRGB color = CRGB::White;
@@ -196,17 +192,7 @@ uint16_t slava[] = {
 0x0000
 };
 int MESSAGE_WIDTH = sizeof(slava) / sizeof(uint16_t);
-// int lastMessageColumn = MESSAGE_WIDTH - 1;
 int currentMessageColumn = 0;
-
-void oldFunc(int var) {
-  for (int i = 0; i < 16; i++)  {
-    Serial.print(((var >> i) & 1) == 1 ? "1" : "0");
-  }
-}
-
-void newFunc(int var) {
-}
 
 // print bitmap from memory
 void printBitmap(uint16_t bitmap[], CRGB myColor) {
@@ -242,7 +228,7 @@ void getNextBitarrayRow() {
   for (int row = 0; row < MATRIX_HEIGHT; row++) {
     leds[ledsInLastColumn[row]] = CRGB::Black;
   }
-//  Serial.println(slava[currentMessageColumn], BIN);
+
   // For each bit that's 1, light up the LED
   for (int b = 0; b <16; b++) {
     if (bitRead(slava[currentMessageColumn], b) == 1) {
@@ -266,19 +252,18 @@ void scrollMatrixLeft(int scrollDelay) {
       }
     }
 
-    //    getNextMessageRow();  // Scroll the message using the bit matrix
     getNextBitarrayRow(); // Scroll the message using the bit array
 
     FastLED.show();
     delay(scrollDelay);
-    if (printMatrix) {
+    if (DEBUG_PRINT) {
       printLEDMatrix();
     }
   }
 }
 
 void printLEDMatrix() {
-//  Serial.println("print LED matrix");
+//  Serial.println("print contents of LED matrix");
   int x = MATRIX_WIDTH - 1; // index of leftmost pixel in the 0th row
   int y = ((MATRIX_WIDTH - 1) * MATRIX_WIDTH) - 1; // index of pixel to the left of the rightmost
   for (int start = x; start <= y; start += MATRIX_WIDTH * 2) {
@@ -305,6 +290,7 @@ void printLEDMatrix() {
 }
 
 // Convert from (0,0) in upper left to matrix index
+// Used when turning on an individual (random) pixel
 int mapScreenToMatrix(int row, int col) {
   // Switch from increasing left to right into
   // increasing right to left for even numbered rows
@@ -323,11 +309,9 @@ void setup() {
   FastLED.clear();
   FastLED.show();
 
-  // This is the message that will scroll
-  // Adjust the message parameter defines
-  // (These parameters should be encapsulated)
-  //  slavaUkraine(); // This is the message that will scroll
-  printBitmap(slava, CRGB::White);
+  if (DEBUG_PRINT) {
+    printBitmap(slava, CRGB::White);
+  }
 }
 
 void loop() {
