@@ -1,6 +1,6 @@
 #include <Adafruit_CircuitPlayground.h>
-#define FASTLED_INTERNAL
 
+#define FASTLED_INTERNAL
 #include <FastLED.h>
 #define NUM_LEDS     60
 #define DATA_PIN      6
