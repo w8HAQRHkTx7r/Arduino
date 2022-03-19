@@ -204,8 +204,6 @@ void printBitmap(uint16_t bitmap[], CRGB myColor) {
   Serial.println("Bitmap to follow:");
   Serial.println("fedcba9876543210 xxxx fedcba9876543210xxxx");
   for (int row = 0; row < MESSAGE_WIDTH; row++) {
-  Serial.print(bitmap[row], BIN); Serial.print(" ");
-  Serial.print(bitmap[row], HEX); Serial.print(" ");
     for (int col = 15; col >=0; col--) {
       if (bitRead(bitmap[row], col)) {
         Serial.print("x");
@@ -213,6 +211,8 @@ void printBitmap(uint16_t bitmap[], CRGB myColor) {
         Serial.print(".");
       }
     }
+    Serial.print(bitmap[row], BIN); Serial.print(" ");
+    Serial.print(bitmap[row], HEX); Serial.print(" ");
     Serial.println(" ");
   }
 }
