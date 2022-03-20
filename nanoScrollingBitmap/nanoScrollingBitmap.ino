@@ -42,6 +42,9 @@ void ukrainianFlag() {
     leds[i] = CRGB::Yellow;
   }
   FastLED.show();
+  if (DEBUG_PRINT) {
+    printLEDMatrix();
+  }
 }
 
 // bitmap design for ukrainian tryzub
@@ -346,6 +349,9 @@ void showBitmap(uint16_t bitmap[], CRGB myColor) {
     }
   }
   FastLED.show();
+  if (DEBUG_PRINT) {
+    printLEDMatrix();
+  }  
 }
 
 void setup() {
@@ -367,18 +373,12 @@ void setup() {
 
 void loop() {
   showBitmap(tryzub,CRGB::Yellow);
-  if (DEBUG_PRINT) {
-    printLEDMatrix();
-  }  
   delay(3000);
 
   scrollMatrixLeft(SPEED);
   delay(1000);
 
   ukrainianFlag();
-  if (DEBUG_PRINT) {
-    printLEDMatrix();
-  }
   delay(3000);
   
 }
