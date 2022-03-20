@@ -17,17 +17,11 @@
 #define MAX_mAMPS 500
 
 #define SPEED 100
-<<<<<<< HEAD
-#define DEBUG_PRINT false
-
-CRGB leds[NUM_LEDS];
-CRGB color = CRGB::White;
-=======
-#define DEBUG_PRINT true
 
 CRGB leds[NUM_LEDS];
 CRGB testColor = CRGB::Black;
->>>>>>> generalize
+
+#define DEBUG_PRINT true
 
 // These are the LED numbers for the last column of the matrix
 byte ledsInLastColumn[] = {
@@ -51,7 +45,7 @@ void ukrainianFlag() {
 }
 
 // bitmap design for ukrainian tryzub
-uint16_t tryzub[16] = {
+uint16_t tryzub[] = {
   0b0000000100000000,
   0b0000000100000000,
   0b0010001110001000,
@@ -242,32 +236,20 @@ void printBitmap(uint16_t bitmap[],  int bitmapLength, CRGB myColor) {
   Serial.println("xxxx  fedcba9876543210 fedcba9876543210");
 
   // Print the symbols
-<<<<<<< HEAD
-  for (int row = 0; row < MESSAGE_WIDTH; row++) {
-=======
   for (int row = 0; row < bitmapLength; row++) {
->>>>>>> generalize
+    
     // Print the hex
     char hexVal[4];
     sprintf(hexVal, "%04X ", bitmap[row]);
     Serial.print(hexVal); Serial.print(" ");
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> generalize
     // Print the binary
     for (unsigned int test = 0x8000; test; test >>= 1) {
       Serial.print(bitmap[row] & test ? '1' : '0');
     }
     Serial.print(" ");
-<<<<<<< HEAD
     
     for (int col = 15; col >=0; col--) {
-=======
-
-    for (int col = 15; col >= 0; col--) {
->>>>>>> generalize
       if (bitRead(bitmap[row], col)) {
         Serial.print("x");
       } else {
@@ -278,24 +260,6 @@ void printBitmap(uint16_t bitmap[],  int bitmapLength, CRGB myColor) {
   }
 }
 
-<<<<<<< HEAD
-void getNextBitarrayRow() {
-  // Clear the entire column to black
-  for (int row = 0; row < MATRIX_HEIGHT; row++) {
-    leds[ledsInLastColumn[row]] = CRGB::Black;
-  }
-
-  // For each bit that's 1, light up the LED
-  for (int b = 0; b <16; b++) {
-    if (bitRead(slava[currentMessageColumn], b) == 1) {
-      leds[ledsInLastColumn[b]] = CRGB::White;
-    }
-  }
-  currentMessageColumn = (currentMessageColumn + 1) % MESSAGE_WIDTH;
-}
-
-=======
->>>>>>> generalize
 void scrollMatrixLeft(int scrollDelay) {
   //  FastLED.clear();
   for (int col = 0; col < MESSAGE_WIDTH; col++) {
@@ -310,13 +274,9 @@ void scrollMatrixLeft(int scrollDelay) {
       }
     }
 
-<<<<<<< HEAD
-    getNextBitarrayRow(); // Scroll the message using the bit array
-
     FastLED.show();
     delay(scrollDelay);
-=======
-    //    getNextBitarrayRow(); // Scroll the message using the bit array
+
     // Clear the entire rightmost column to black
     for (int row = 0; row < MATRIX_HEIGHT; row++) {
       leds[ledsInLastColumn[row]] = CRGB::Black;
@@ -330,7 +290,6 @@ void scrollMatrixLeft(int scrollDelay) {
     }
     currentMessageColumn = (currentMessageColumn + 1) % MESSAGE_WIDTH;
 
->>>>>>> generalize
     if (DEBUG_PRINT) {
       printLEDMatrix();
     }
@@ -340,11 +299,6 @@ void scrollMatrixLeft(int scrollDelay) {
 }
 
 void printLEDMatrix() {
-<<<<<<< HEAD
-//  Serial.println("print contents of LED matrix");
-=======
-  //  Serial.println("print contents of LED matrix");
->>>>>>> generalize
   int x = MATRIX_WIDTH - 1; // index of leftmost pixel in the 0th row
   int y = ((MATRIX_WIDTH - 1) * MATRIX_WIDTH) - 1; // index of pixel to the left of the rightmost
   for (int start = x; start <= y; start += MATRIX_WIDTH * 2) {
@@ -385,8 +339,6 @@ void showBitmap(uint16_t bitmap[], CRGB myColor) {
   FastLED.clear();
   for (int row = 0; row < MATRIX_HEIGHT; row++) {
     for (int col = 0; col < MATRIX_WIDTH; col++) {
-//      Serial.print(row); Serial.print(" "); 
-//      Serial.print(col); Serial.println(" ");
       if (bitRead(bitmap[row], col)) {
         int ledIndex = mapScreenToMatrix(row, col);
         leds[ledIndex] = myColor;
@@ -407,16 +359,10 @@ void setup() {
   FastLED.show();
 
   if (DEBUG_PRINT) {
-<<<<<<< HEAD
-    printBitmap(slava, CRGB::White);
-  }
-=======
     printBitmap(slava, sizeof(slava) / sizeof(uint16_t), CRGB::White);
     printBitmap(tryzub, sizeof(tryzub) / sizeof(uint16_t), CRGB::Blue);
     delay(2000);
   }
-
->>>>>>> generalize
 }
 
 void loop() {
