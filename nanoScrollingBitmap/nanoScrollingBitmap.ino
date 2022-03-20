@@ -23,7 +23,7 @@ CRGB leds[NUM_LEDS];
 CRGB testColor = CRGB::Black;
 
 // These are the LED numbers for the last column of the matrix
-int ledsInLastColumn[] = {
+byte ledsInLastColumn[] = {
   0, 31, 32, 63, 64, 95,
   96, 127, 128, 159, 160,
   191, 192, 223, 224, 255
@@ -230,12 +230,12 @@ int MESSAGE_WIDTH = sizeof(slava) / sizeof(uint16_t);
 int currentMessageColumn = 0;
 
 // print bitmap from memory
-void printBitmap(uint16_t bitmap[], CRGB myColor) {
+void printBitmap(uint16_t bitmap[],  int bitmapLength, CRGB myColor) {
   Serial.println("Bitmap to follow:");
   Serial.println("xxxx  fedcba9876543210 fedcba9876543210");
 
   // Print the symbols
-  for (int row = 0; row < MESSAGE_WIDTH; row++) {
+  for (int row = 0; row < bitmapLength; row++) {
     // Print the hex
     char hexVal[4];
     sprintf(hexVal, "%04X ", bitmap[row]);
@@ -257,21 +257,6 @@ void printBitmap(uint16_t bitmap[], CRGB myColor) {
     Serial.println(" ");
   }
 }
-
-//void getNextBitarrayRow() {
-//  // Clear the entire column to black
-//  for (int row = 0; row < MATRIX_HEIGHT; row++) {
-//    leds[ledsInLastColumn[row]] = CRGB::Black;
-//  }
-//
-//  // For each bit that's 1, light up the LED
-//  for (int b = 0; b <16; b++) {
-//    if (bitRead(slava[currentMessageColumn], b) == 1) {
-//      leds[ledsInLastColumn[b]] = CRGB::White;
-//    }
-//  }
-//  currentMessageColumn = (currentMessageColumn + 1) % MESSAGE_WIDTH;
-//}
 
 void scrollMatrixLeft(int scrollDelay) {
   //  FastLED.clear();
@@ -346,6 +331,22 @@ int mapScreenToMatrix(int row, int col) {
   return row * MATRIX_WIDTH + newCol;
 }
 
+// show the bitmap in memory onto the matrix using color indicated
+void showBitmap(uint16_t bitmap[], CRGB myColor) {
+  FastLED.clear();
+  for (int row = 0; row < MATRIX_HEIGHT; row++) {
+    for (int col = 0; col < MATRIX_WIDTH; col++) {
+//      Serial.print(row); Serial.print(" "); 
+//      Serial.print(col); Serial.println(" ");
+      if (bitRead(bitmap[row], col)) {
+        int ledIndex = mapScreenToMatrix(row, col);
+        leds[ledIndex] = myColor;
+      }
+    }
+  }
+  FastLED.show();
+}
+
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
   Serial.begin(9600);
@@ -357,17 +358,27 @@ void setup() {
   FastLED.show();
 
   if (DEBUG_PRINT) {
-    printBitmap(slava, CRGB::White);
-    printBitmap(tryzub, CRGB::Blue);
+    printBitmap(slava, sizeof(slava) / sizeof(uint16_t), CRGB::White);
+    printBitmap(tryzub, sizeof(tryzub) / sizeof(uint16_t), CRGB::Blue);
+    delay(2000);
   }
+
 }
 
 void loop() {
+  showBitmap(tryzub,CRGB::Yellow);
+  if (DEBUG_PRINT) {
+    printLEDMatrix();
+  }  
+  delay(3000);
+
+  scrollMatrixLeft(SPEED);
+  delay(1000);
+
   ukrainianFlag();
   if (DEBUG_PRINT) {
     printLEDMatrix();
   }
   delay(3000);
-  scrollMatrixLeft(SPEED);
-  delay(1000);
+  
 }
