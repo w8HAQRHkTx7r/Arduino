@@ -17,10 +17,10 @@
 #define MAX_mAMPS 500
 
 #define SPEED 100
-#define DEBUG_PRINT false
+#define DEBUG_PRINT true
 
 CRGB leds[NUM_LEDS];
-CRGB color = CRGB::White;
+CRGB testColor = CRGB::Black;
 
 // These are the LED numbers for the last column of the matrix
 int ledsInLastColumn[] = {
@@ -315,7 +315,7 @@ void printLEDMatrix() {
   int y = ((MATRIX_WIDTH - 1) * MATRIX_WIDTH) - 1; // index of pixel to the left of the rightmost
   for (int start = x; start <= y; start += MATRIX_WIDTH * 2) {
     for (int p = start; p >= start - (MATRIX_WIDTH - 1); p--) {
-      if (leds[p] == color) {
+      if (leds[p] != testColor) {
         Serial.print("@");
       } else {
         Serial.print(".");
@@ -324,7 +324,7 @@ void printLEDMatrix() {
     }
     Serial.println(" ");
     for (int p = start + 1; p <= start + 1 + (MATRIX_WIDTH - 1); p++) {
-      if (leds[p] == color) {
+      if (leds[p] != testColor) {
         Serial.print("@");
       } else {
         Serial.print(".");
@@ -364,6 +364,9 @@ void setup() {
 
 void loop() {
   ukrainianFlag();
+  if (DEBUG_PRINT) {
+    printLEDMatrix();
+  }
   delay(3000);
   scrollMatrixLeft(SPEED);
   delay(1000);
