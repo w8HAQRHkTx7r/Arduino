@@ -27,7 +27,7 @@ int ledsInLastColumn[] = {
   0, 31, 32, 63, 64, 95,
   96, 127, 128, 159, 160,
   191, 192, 223, 224, 255
-  };
+};
 
 // This is a degenerate form of showing the flag
 // without having to do a multicolored bitmap design
@@ -65,166 +65,166 @@ uint16_t tryzub[16] = {
 
 
 uint16_t slava[] = {
-0x0FE0,
-0x1010,
-0x1010,
-0x1010,
-0x0820,
-0x0000,
-0x1000,
-0x0C00,
-0x03F0,
-0x0010,
-0x0010,
-0x1FF0,
-0x0000,
-0x1FE0,
-0x0110,
-0x0110,
-0x0110,
-0x1FE0,
-0x0000,
-0x1FF0,
-0x1110,
-0x1110,
-0x1110,
-0x0EE0,
-0x0000,
-0x1FE0,
-0x0110,
-0x0110,
-0x0110,
-0x1FE0,
-0x0000,
-0x0000,
-0x0000,
-0x0000,
-0x0030,
-0x00C0,
-0x1F00,
-0x00C0,
-0x0030,
-0x0000,
-0x1FF0,
-0x0100,
-0x0280,
-0x0C60,
-0x1010,
-0x0000,
-0x1FF0,
-0x0110,
-0x0110,
-0x0110,
-0x00E0,
-0x0000,
-0x1FE0,
-0x0110,
-0x0110,
-0x0110,
-0x1FE0,
-0x0000,
-0x1014,
-0x1FF0,
-0x1014,
-0x0000,
-0x1FF0,
-0x0100,
-0x0100,
-0x0100,
-0x1FF0,
-0x0000,
-0x1010,
-0x1FF0,
-0x1010,
-0x0000,
-0x0000,
-0x0000,
-0x0000,
-0x0000,
-0x0000,
-0x0000,
-0x0000,
-0x0000,
-0x0000,
-0x0000,
-0x1FF0,
-0x0010,
-0x0010,
-0x0010,
-0x0000,
-0x1FF0,
-0x1110,
-0x1110,
-0x1010,
-0x0000,
-0x1FF0,
-0x0110,
-0x0110,
-0x0110,
-0x00E0,
-0x0000,
-0x0FE0,
-0x1010,
-0x1010,
-0x1010,
-0x0FE0,
-0x0000,
-0x18E0,
-0x0510,
-0x0310,
-0x0110,
-0x1FF0,
-0x0000,
-0x1FF0,
-0x0060,
-0x0180,
-0x1E00,
-0x0180,
-0x0060,
-0x1FF0,
-0x0000,
-0x0000,
-0x0000,
-0x0000,
-0x0FE0,
-0x1010,
-0x1010,
-0x1010,
-0x0820,
-0x0000,
-0x1000,
-0x0C00,
-0x03F0,
-0x0010,
-0x0010,
-0x1FF0,
-0x0000,
-0x1FE0,
-0x0110,
-0x0110,
-0x0110,
-0x1FE0,
-0x0000,
-0x1FF0,
-0x1110,
-0x1110,
-0x1110,
-0x0EE0,
-0x0000,
-0x1FE0,
-0x0110,
-0x0110,
-0x0110,
-0x1FE0,
-0x0000,
-0x0000,
-0x0000,
-0x0000,
-0x0000,
-0x0000,
-0x0000,
-0x0000,
-0x0000
+  0x0FE0,
+  0x1010,
+  0x1010,
+  0x1010,
+  0x0820,
+  0x0000,
+  0x1000,
+  0x0C00,
+  0x03F0,
+  0x0010,
+  0x0010,
+  0x1FF0,
+  0x0000,
+  0x1FE0,
+  0x0110,
+  0x0110,
+  0x0110,
+  0x1FE0,
+  0x0000,
+  0x1FF0,
+  0x1110,
+  0x1110,
+  0x1110,
+  0x0EE0,
+  0x0000,
+  0x1FE0,
+  0x0110,
+  0x0110,
+  0x0110,
+  0x1FE0,
+  0x0000,
+  0x0000,
+  0x0000,
+  0x0000,
+  0x0030,
+  0x00C0,
+  0x1F00,
+  0x00C0,
+  0x0030,
+  0x0000,
+  0x1FF0,
+  0x0100,
+  0x0280,
+  0x0C60,
+  0x1010,
+  0x0000,
+  0x1FF0,
+  0x0110,
+  0x0110,
+  0x0110,
+  0x00E0,
+  0x0000,
+  0x1FE0,
+  0x0110,
+  0x0110,
+  0x0110,
+  0x1FE0,
+  0x0000,
+  0x1014,
+  0x1FF0,
+  0x1014,
+  0x0000,
+  0x1FF0,
+  0x0100,
+  0x0100,
+  0x0100,
+  0x1FF0,
+  0x0000,
+  0x1010,
+  0x1FF0,
+  0x1010,
+  0x0000,
+  0x0000,
+  0x0000,
+  0x0000,
+  0x0000,
+  0x0000,
+  0x0000,
+  0x0000,
+  0x0000,
+  0x0000,
+  0x0000,
+  0x1FF0,
+  0x0010,
+  0x0010,
+  0x0010,
+  0x0000,
+  0x1FF0,
+  0x1110,
+  0x1110,
+  0x1010,
+  0x0000,
+  0x1FF0,
+  0x0110,
+  0x0110,
+  0x0110,
+  0x00E0,
+  0x0000,
+  0x0FE0,
+  0x1010,
+  0x1010,
+  0x1010,
+  0x0FE0,
+  0x0000,
+  0x18E0,
+  0x0510,
+  0x0310,
+  0x0110,
+  0x1FF0,
+  0x0000,
+  0x1FF0,
+  0x0060,
+  0x0180,
+  0x1E00,
+  0x0180,
+  0x0060,
+  0x1FF0,
+  0x0000,
+  0x0000,
+  0x0000,
+  0x0000,
+  0x0FE0,
+  0x1010,
+  0x1010,
+  0x1010,
+  0x0820,
+  0x0000,
+  0x1000,
+  0x0C00,
+  0x03F0,
+  0x0010,
+  0x0010,
+  0x1FF0,
+  0x0000,
+  0x1FE0,
+  0x0110,
+  0x0110,
+  0x0110,
+  0x1FE0,
+  0x0000,
+  0x1FF0,
+  0x1110,
+  0x1110,
+  0x1110,
+  0x0EE0,
+  0x0000,
+  0x1FE0,
+  0x0110,
+  0x0110,
+  0x0110,
+  0x1FE0,
+  0x0000,
+  0x0000,
+  0x0000,
+  0x0000,
+  0x0000,
+  0x0000,
+  0x0000,
+  0x0000,
+  0x0000
 };
 int MESSAGE_WIDTH = sizeof(slava) / sizeof(uint16_t);
 int currentMessageColumn = 0;
@@ -240,14 +240,14 @@ void printBitmap(uint16_t bitmap[], CRGB myColor) {
     char hexVal[4];
     sprintf(hexVal, "%04X ", bitmap[row]);
     Serial.print(hexVal); Serial.print(" ");
-    
+
     // Print the binary
     for (unsigned int test = 0x8000; test; test >>= 1) {
       Serial.print(bitmap[row] & test ? '1' : '0');
     }
     Serial.print(" ");
-    
-    for (int col = 15; col >=0; col--) {
+
+    for (int col = 15; col >= 0; col--) {
       if (bitRead(bitmap[row], col)) {
         Serial.print("x");
       } else {
@@ -258,20 +258,20 @@ void printBitmap(uint16_t bitmap[], CRGB myColor) {
   }
 }
 
-void getNextBitarrayRow() {
-  // Clear the entire column to black
-  for (int row = 0; row < MATRIX_HEIGHT; row++) {
-    leds[ledsInLastColumn[row]] = CRGB::Black;
-  }
-
-  // For each bit that's 1, light up the LED
-  for (int b = 0; b <16; b++) {
-    if (bitRead(slava[currentMessageColumn], b) == 1) {
-      leds[ledsInLastColumn[b]] = CRGB::White;
-    }
-  }
-  currentMessageColumn = (currentMessageColumn + 1) % MESSAGE_WIDTH;
-}
+//void getNextBitarrayRow() {
+//  // Clear the entire column to black
+//  for (int row = 0; row < MATRIX_HEIGHT; row++) {
+//    leds[ledsInLastColumn[row]] = CRGB::Black;
+//  }
+//
+//  // For each bit that's 1, light up the LED
+//  for (int b = 0; b <16; b++) {
+//    if (bitRead(slava[currentMessageColumn], b) == 1) {
+//      leds[ledsInLastColumn[b]] = CRGB::White;
+//    }
+//  }
+//  currentMessageColumn = (currentMessageColumn + 1) % MESSAGE_WIDTH;
+//}
 
 void scrollMatrixLeft(int scrollDelay) {
   //  FastLED.clear();
@@ -287,18 +287,30 @@ void scrollMatrixLeft(int scrollDelay) {
       }
     }
 
-    getNextBitarrayRow(); // Scroll the message using the bit array
+    //    getNextBitarrayRow(); // Scroll the message using the bit array
+    // Clear the entire rightmost column to black
+    for (int row = 0; row < MATRIX_HEIGHT; row++) {
+      leds[ledsInLastColumn[row]] = CRGB::Black;
+    }
 
-    FastLED.show();
-    delay(scrollDelay);
+    // For each bit in the row that's a 1, light up its matrix LED
+    for (int b = 0; b < 16; b++) {
+      if (bitRead(slava[currentMessageColumn], b) == 1) {
+        leds[ledsInLastColumn[b]] = CRGB::White;
+      }
+    }
+    currentMessageColumn = (currentMessageColumn + 1) % MESSAGE_WIDTH;
+
     if (DEBUG_PRINT) {
       printLEDMatrix();
     }
+    FastLED.show();
+    delay(scrollDelay);
   }
 }
 
 void printLEDMatrix() {
-//  Serial.println("print contents of LED matrix");
+  //  Serial.println("print contents of LED matrix");
   int x = MATRIX_WIDTH - 1; // index of leftmost pixel in the 0th row
   int y = ((MATRIX_WIDTH - 1) * MATRIX_WIDTH) - 1; // index of pixel to the left of the rightmost
   for (int start = x; start <= y; start += MATRIX_WIDTH * 2) {
@@ -354,4 +366,5 @@ void loop() {
   ukrainianFlag();
   delay(3000);
   scrollMatrixLeft(SPEED);
+  delay(1000);
 }
