@@ -28,7 +28,7 @@ uint16_t stem[] = {
 0x0600,
 0x0700,
 0x1FC0,
-0x0500,
+0x0480,
 0x0000,
 0x0000,
 0x0000,
@@ -178,7 +178,8 @@ int mapScreenToMatrix(int row, int col) {
   // Switch from increasing left to right into
   // increasing right to left for even numbered rows
   // Then compute a linear pixel offset
-  int newCol = (row % 2 == 0) ? newCol = (MATRIX_WIDTH - 1) - col : newCol = col;
+//  int newCol = (row % 2 == 0) ? newCol = (MATRIX_WIDTH - 1) - col : newCol = col; This was flipping the bitmap around the vertical axis
+  int newCol = (row % 2 == 0) ? newCol = col : newCol = (MATRIX_WIDTH - 1) - col;
   return row * MATRIX_WIDTH + newCol;
 }
 
