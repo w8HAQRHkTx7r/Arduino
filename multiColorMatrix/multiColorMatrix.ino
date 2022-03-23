@@ -161,8 +161,7 @@ void moveEyes() {
   int randrow = random(6,8);
   int randcol = random(6,8);
   leds[mapScreenToMatrix(randrow, randcol)] = CRGB::Yellow;
-  randcol = random(11,13);
-  leds[mapScreenToMatrix(randrow, randcol)] = CRGB::Yellow;
+  leds[mapScreenToMatrix(randrow, randcol+5)] = CRGB::Yellow;
 }
 
 void printLEDMatrix() {
