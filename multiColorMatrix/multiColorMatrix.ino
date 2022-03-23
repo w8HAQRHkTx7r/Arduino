@@ -146,6 +146,25 @@ void scrollMatrixLeft(int scrollDelay) {
 //  }
 }
 
+void moveEyes() {
+  // Black left eye
+  leds[mapScreenToMatrix(6, 6)] = CRGB::Black;
+  leds[mapScreenToMatrix(6, 7)] = CRGB::Black;
+  leds[mapScreenToMatrix(7, 6)] = CRGB::Black;
+  leds[mapScreenToMatrix(7, 7)] = CRGB::Black;
+  // Black right eye
+  leds[mapScreenToMatrix(6, 11)] = CRGB::Black;
+  leds[mapScreenToMatrix(6, 12)] = CRGB::Black;
+  leds[mapScreenToMatrix(7, 11)] = CRGB::Black;
+  leds[mapScreenToMatrix(7, 12)] = CRGB::Black;
+  // Random eye direction
+  int randrow = random(6,8);
+  int randcol = random(6,8);
+  leds[mapScreenToMatrix(randrow, randcol)] = CRGB::Yellow;
+  randcol = random(11,13);
+  leds[mapScreenToMatrix(randrow, randcol)] = CRGB::Yellow;
+}
+
 void printLEDMatrix() {
   int x = MATRIX_WIDTH - 1; // index of leftmost pixel in the 0th row
   int y = ((MATRIX_WIDTH - 1) * MATRIX_WIDTH) - 1; // index of pixel to the left of the rightmost
@@ -229,5 +248,12 @@ void loop() {
   showBitmap(eyes,CRGB::Yellow, false);
   FastLED.show();
   delay(3000);
+
+  while (true) {
+    moveEyes();
+    FastLED.show();
+    printLEDMatrix();
+    delay(2000);
+  }
 
 }
