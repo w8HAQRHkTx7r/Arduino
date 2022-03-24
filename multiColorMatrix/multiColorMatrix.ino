@@ -9,7 +9,6 @@
 #define MATRIX_WIDTH  16
 #define NUM_LEDS      MATRIX_HEIGHT * MATRIX_WIDTH
 
-// #define BITMAP_WIDTH  160
 #define DATA_PIN 3
 #define CLOCK_PIN 13
 #define PAUSE 10
@@ -67,6 +66,24 @@ uint16_t eyes[] = {
 0x0000,
 0x0000,
 0x1080,
+0x0000,
+0x0000,
+0x0000,
+0x0000,
+0x0000,
+0x0000,
+0x0000,
+0x0000,
+0x0000,
+};
+uint16_t teeth[] = {
+0x0000,
+0x0000,
+0x0000,
+0x0000,
+0x0000,
+0x0000,
+0x0000,
 0x0000,
 0x0000,
 0x0000,
@@ -160,8 +177,8 @@ void moveEyes() {
   // Random eye direction
   int randrow = random(6,8);
   int randcol = random(6,8);
-  leds[mapScreenToMatrix(randrow, randcol)] = CRGB::Yellow;
-  leds[mapScreenToMatrix(randrow, randcol+5)] = CRGB::Yellow;
+  leds[mapScreenToMatrix(randrow, randcol)] = CRGB::Red;
+  leds[mapScreenToMatrix(randrow, randcol+5)] = CRGB::Red;
 }
 
 void printLEDMatrix() {
@@ -244,15 +261,16 @@ void loop() {
   FastLED.clear();
   showBitmap(stem,CRGB::Green, false);
   showBitmap(pumpkin,CRGB::Orange, false);
-  showBitmap(eyes,CRGB::Yellow, false);
+  showBitmap(eyes,CRGB::Red, false);
+  showBitmap(teeth, CRGB::White, false);
   FastLED.show();
-  delay(3000);
+  delay(300);
 
   while (true) {
     moveEyes();
     FastLED.show();
     printLEDMatrix();
-    delay(2000);
+    delay(500);
   }
 
 }
