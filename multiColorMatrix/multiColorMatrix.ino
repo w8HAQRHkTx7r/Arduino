@@ -9,12 +9,12 @@
 #define MATRIX_WIDTH  16
 #define NUM_LEDS      MATRIX_HEIGHT * MATRIX_WIDTH
 
-#define DATA_PIN 3
-#define CLOCK_PIN 13
-#define PAUSE 10
-#define BRIGHTNESS 100
-#define VOLTS 5
-#define MAX_mAMPS 500
+#define DATA_PIN     3
+#define CLOCK_PIN   13
+#define PAUSE       10
+#define BRIGHTNESS 20
+#define VOLTS        5
+#define MAX_mAMPS  500
 
 CRGB leds[NUM_LEDS];
 CRGB testColor = CRGB::Black;  // Used for printing
@@ -58,6 +58,8 @@ uint16_t pumpkin[] = {
 0x0000,
 0x0000,
 };
+
+CRGB eyeColor = CRGB::White;
 uint16_t eyes[] = {
 0x0000,
 0x0000,
@@ -124,7 +126,6 @@ void printBitmap(uint16_t bitmap[],  int bitmapLength, CRGB myColor) {
     Serial.println(" ");
   }
 }
-
 void scrollMatrixLeft(int scrollDelay) {
 //  //  FastLED.clear();
 //  for (int col = 0; col < MESSAGE_WIDTH; col++) {
@@ -162,7 +163,6 @@ void scrollMatrixLeft(int scrollDelay) {
 //    delay(scrollDelay);
 //  }
 }
-
 void moveEyes() {
   // Black left eye
   leds[mapScreenToMatrix(6, 6)] = CRGB::Black;
@@ -177,10 +177,9 @@ void moveEyes() {
   // Random eye direction
   int randrow = random(6,8);
   int randcol = random(6,8);
-  leds[mapScreenToMatrix(randrow, randcol)] = CRGB::Red;
-  leds[mapScreenToMatrix(randrow, randcol+5)] = CRGB::Red;
+  leds[mapScreenToMatrix(randrow, randcol)] = eyeColor;
+  leds[mapScreenToMatrix(randrow, randcol+5)] = eyeColor;
 }
-
 void printLEDMatrix() {
   int x = MATRIX_WIDTH - 1; // index of leftmost pixel in the 0th row
   int y = ((MATRIX_WIDTH - 1) * MATRIX_WIDTH) - 1; // index of pixel to the left of the rightmost
@@ -206,7 +205,6 @@ void printLEDMatrix() {
   }
   delay(50);
 }
-
 // Convert from (0,0) in upper left to matrix index
 // Used when turning on an individual (random) pixel
 int mapScreenToMatrix(int row, int col) {
@@ -217,7 +215,6 @@ int mapScreenToMatrix(int row, int col) {
   int newCol = (row % 2 == 0) ? newCol = col : newCol = (MATRIX_WIDTH - 1) - col;
   return row * MATRIX_WIDTH + newCol;
 }
-
 // show the bitmap in memory onto the matrix using color indicated
 void showBitmap(uint16_t bitmap[], CRGB myColor, bool clearFirst) {
   if (clearFirst) {
@@ -238,7 +235,6 @@ void showBitmap(uint16_t bitmap[], CRGB myColor, bool clearFirst) {
     printLEDMatrix();
   }  
 }
-
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
   Serial.begin(9600);
@@ -252,17 +248,16 @@ void setup() {
   if (DEBUG_PRINT) {
     printBitmap(stem, sizeof(stem) / sizeof(uint16_t), CRGB::Green);
     printBitmap(pumpkin, sizeof(pumpkin) / sizeof(uint16_t), CRGB::Orange);
-    printBitmap(eyes, sizeof(eyes) / sizeof(uint16_t), CRGB::Yellow);
+    printBitmap(eyes, sizeof(eyes) / sizeof(uint16_t), eyeColor);
     delay(2000);
   }
 }
-
 void loop() {
   FastLED.clear();
-  showBitmap(stem,CRGB::Green, false);
-  showBitmap(pumpkin,CRGB::Orange, false);
-  showBitmap(eyes,CRGB::Red, false);
-  showBitmap(teeth, CRGB::White, false);
+  showBitmap(stem, CRGB::Green, false);
+  showBitmap(pumpkin, CRGB(255,91,0), false); // DMC 444
+  showBitmap(eyes, CRGB::White, false);
+  showBitmap(teeth, CRGB(255,91,0), false);
   FastLED.show();
   delay(300);
 
@@ -270,7 +265,7 @@ void loop() {
     moveEyes();
     FastLED.show();
     printLEDMatrix();
-    delay(500);
+    delay(random(250,1000));
   }
 
 }
