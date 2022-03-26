@@ -23,12 +23,12 @@ CRGB testColor = CRGB::Black;  // Used for printing
 
 // bitmap design for ukrainian tryzub
 uint16_t stem[] = {
-0x0C00,
-0x0600,
-0x0700,
-0x1FC0,
-0x0480,
 0x0000,
+0x0600,
+0x0300,
+0x0380,
+0x0FC0,
+0x0240,
 0x0000,
 0x0000,
 0x0000,
@@ -45,17 +45,17 @@ uint16_t pumpkin[] = {
 0x0000,
 0x0000,
 0x0000,
-0x3B60,
-0x7FF0,
-0xE738,
-0xE738,
-0xFDF8,
-0xF8F8,
-0xEFB8,
-0x7070,
-0x3FE0,
-0x1FC0,
 0x0000,
+0x1DB0,
+0x3FF8,
+0x739C,
+0x739C,
+0x7EFC,
+0x7C7C,
+0x77DC,
+0x3838,
+0x1FF0,
+0x0FE0,
 0x0000,
 };
 
@@ -67,8 +67,8 @@ uint16_t eyes[] = {
 0x0000,
 0x0000,
 0x0000,
-0x1080,
 0x0000,
+0x0840,
 0x0000,
 0x0000,
 0x0000,
@@ -90,8 +90,8 @@ uint16_t teeth[] = {
 0x0000,
 0x0000,
 0x0000,
-0x0500,
 0x0000,
+0x0280,
 0x0000,
 0x0000,
 0x0000,
@@ -165,18 +165,18 @@ void scrollMatrixLeft(int scrollDelay) {
 }
 void moveEyes() {
   // Black left eye
-  leds[mapScreenToMatrix(6, 6)] = CRGB::Black;
-  leds[mapScreenToMatrix(6, 7)] = CRGB::Black;
+  leds[mapScreenToMatrix(7, 5)] = CRGB::Black;
   leds[mapScreenToMatrix(7, 6)] = CRGB::Black;
-  leds[mapScreenToMatrix(7, 7)] = CRGB::Black;
+  leds[mapScreenToMatrix(8, 5)] = CRGB::Black;
+  leds[mapScreenToMatrix(8, 6)] = CRGB::Black;
   // Black right eye
-  leds[mapScreenToMatrix(6, 11)] = CRGB::Black;
-  leds[mapScreenToMatrix(6, 12)] = CRGB::Black;
+  leds[mapScreenToMatrix(7, 10)] = CRGB::Black;
   leds[mapScreenToMatrix(7, 11)] = CRGB::Black;
-  leds[mapScreenToMatrix(7, 12)] = CRGB::Black;
+  leds[mapScreenToMatrix(8, 10)] = CRGB::Black;
+  leds[mapScreenToMatrix(8, 11)] = CRGB::Black;
   // Random eye direction
-  int randrow = random(6,8);
-  int randcol = random(6,8);
+  int randrow = random(7,9);
+  int randcol = random(5,7);
   leds[mapScreenToMatrix(randrow, randcol)] = eyeColor;
   leds[mapScreenToMatrix(randrow, randcol+5)] = eyeColor;
 }
