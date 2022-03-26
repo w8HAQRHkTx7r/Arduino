@@ -21,6 +21,8 @@ CRGB testColor = CRGB::Black;  // Used for printing
 CRGB g = CRGB::Green;
 CRGB o = CRGB(255, 91, 0);
 CRGB y = CRGB::Yellow;
+CRGB w = CRGB::White;
+CRGB eyeColor = w;
 
 void drawImage() {
 leds[21]=g;leds[22]=g;
@@ -29,7 +31,7 @@ leds[54]=g;leds[55]=g;leds[56]=g;
 leds[75]=g;leds[74]=g;leds[73]=g;leds[72]=g;leds[71]=g;leds[70]=g;leds[69]=g;
 leds[83]=o;leds[84]=o;leds[85]=o;leds[86]=g;leds[87]=o;leds[88]=o;leds[89]=g;leds[90]=o;leds[91]=o;
 leds[109]=o;leds[108]=o;leds[107]=o;leds[106]=o;leds[105]=o;leds[104]=o;leds[103]=o;leds[102]=o;leds[101]=o;leds[100]=o;leds[99]=o;
-leds[113]=o;leds[114]=o;leds[115]=o;leds[116]=y;leds[118]=o;leds[119]=o;leds[120]=o;leds[121]=y;leds[123]=o;leds[124]=o;leds[125]=o;
+leds[113]=o;leds[114]=o;leds[115]=o;leds[116]=w;leds[118]=o;leds[119]=o;leds[120]=o;leds[121]=w;leds[123]=o;leds[124]=o;leds[125]=o;
 leds[142]=o;leds[141]=o;leds[140]=o;leds[137]=o;leds[136]=o;leds[135]=o;leds[132]=o;leds[131]=o;leds[130]=o;
 leds[145]=o;leds[146]=o;leds[147]=o;leds[148]=o;leds[149]=o;leds[150]=o;leds[152]=o;leds[153]=o;leds[154]=o;leds[155]=o;leds[156]=o;leds[157]=o;
 leds[174]=o;leds[173]=o;leds[172]=o;leds[171]=o;leds[170]=o;leds[166]=o;leds[165]=o;leds[164]=o;leds[163]=o;leds[162]=o;
@@ -75,6 +77,23 @@ int mapScreenToMatrix(int row, int col) {
   int newCol = (row % 2 == 0) ? newCol = col : newCol = (MATRIX_WIDTH - 1) - col;
   return row * MATRIX_WIDTH + newCol;
 }
+void moveEyes() {
+  // Black left eye
+  leds[mapScreenToMatrix(7, 5)] = CRGB::Black;
+  leds[mapScreenToMatrix(7, 6)] = CRGB::Black;
+  leds[mapScreenToMatrix(8, 5)] = CRGB::Black;
+  leds[mapScreenToMatrix(8, 6)] = CRGB::Black;
+  // Black right eye
+  leds[mapScreenToMatrix(7, 10)] = CRGB::Black;
+  leds[mapScreenToMatrix(7, 11)] = CRGB::Black;
+  leds[mapScreenToMatrix(8, 10)] = CRGB::Black;
+  leds[mapScreenToMatrix(8, 11)] = CRGB::Black;
+  // Random eye direction
+  int randrow = random(7,9);
+  int randcol = random(5,7);
+  leds[mapScreenToMatrix(randrow, randcol)] = eyeColor;
+  leds[mapScreenToMatrix(randrow, randcol+5)] = eyeColor;
+}
 
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
@@ -89,4 +108,7 @@ void setup() {
 }
 
 void loop() {
+  moveEyes();
+  FastLED.show();
+  delay(random(200,600));
 }
