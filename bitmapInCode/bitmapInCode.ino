@@ -12,7 +12,7 @@
 #define DATA_PIN     3
 #define CLOCK_PIN   13
 #define PAUSE       10
-#define BRIGHTNESS  10
+#define BRIGHTNESS  100
 #define VOLTS        5
 #define MAX_mAMPS  500
 
@@ -41,12 +41,19 @@ CRGB egg[] {
 };
 
 CRGB donald[] = {
-CRGB(111,25,122),    // purple background 
-CRGB(51,62,122),     // blue at 
-CRGB::White,         // white face 
-CRGB(186, 191, 250), // lavender eyeball 
-CRGB(239, 149, 65),  // orange bill  
-CRGB(229, 108, 105), // salmon mouth 
+  CRGB(111, 25, 122),  // purple background
+  CRGB(51, 62, 122),   // blue at
+  CRGB::White,         // white face
+  CRGB(186, 191, 250), // lavender eyeball
+  CRGB(239, 149, 65),  // orange bill
+  CRGB(229, 108, 105), // salmon mouth
+};
+
+CRGB rabbit[] {
+  CRGB::White,
+  CRGB(103,115,141), //gray
+  CRGB(255,160,160),  //pink
+  CRGB(225,164,73),
 };
 
 CRGB Error[] = {
@@ -125,6 +132,24 @@ void drawImage(char pattern, CRGB palette[]) {
       leds[208] = palette[1]; leds[209] = palette[1]; leds[210] = palette[1]; leds[212] = palette[0]; leds[213] = palette[0]; leds[214] = palette[0]; leds[215] = palette[0]; leds[216] = palette[0]; leds[217] = palette[0]; leds[218] = palette[0]; leds[219] = palette[4]; leds[221] = palette[1]; leds[222] = palette[1]; leds[223] = palette[1];
       leds[239] = palette[1]; leds[238] = palette[1]; leds[237] = palette[1]; leds[236] = palette[1]; leds[233] = palette[0]; leds[232] = palette[0]; leds[231] = palette[0]; leds[230] = palette[0]; leds[227] = palette[1]; leds[226] = palette[1]; leds[225] = palette[1]; leds[224] = palette[1];
       leds[240] = palette[1]; leds[241] = palette[1]; leds[242] = palette[1]; leds[243] = palette[1]; leds[244] = palette[1]; leds[245] = palette[1]; leds[250] = palette[1]; leds[251] = palette[1]; leds[252] = palette[1]; leds[253] = palette[1]; leds[254] = palette[1]; leds[255] = palette[1];
+      break;
+    case 'r': // rabbit
+leds[15]=palette[0];leds[14]=palette[0];leds[13]=palette[0];leds[12]=palette[0];leds[11]=palette[0];leds[10]=palette[0];leds[9]=palette[0];leds[8]=palette[0];leds[7]=palette[0];leds[6]=palette[0];leds[5]=palette[0];leds[4]=palette[0];leds[3]=palette[0];leds[2]=palette[0];leds[1]=palette[0];leds[0]=palette[0];
+leds[16]=palette[0];leds[17]=palette[0];leds[18]=palette[0];leds[21]=palette[0];leds[22]=palette[0];leds[23]=palette[0];leds[24]=palette[0];leds[25]=palette[0];leds[26]=palette[0];leds[27]=palette[0];leds[28]=palette[0];leds[31]=palette[0];
+leds[47]=palette[0];leds[46]=palette[0];leds[44]=palette[3];leds[43]=palette[3];leds[41]=palette[0];leds[40]=palette[0];leds[39]=palette[0];leds[38]=palette[0];leds[37]=palette[0];leds[36]=palette[0];leds[34]=palette[3];leds[33]=palette[3];
+leds[48]=palette[0];leds[50]=palette[3];leds[51]=palette[2];leds[52]=palette[3];leds[54]=palette[0];leds[55]=palette[0];leds[56]=palette[0];leds[57]=palette[0];leds[58]=palette[0];leds[60]=palette[3];leds[61]=palette[2];leds[62]=palette[3];
+leds[79]=palette[0];leds[77]=palette[3];leds[76]=palette[2];leds[75]=palette[2];leds[74]=palette[3];leds[72]=palette[0];leds[71]=palette[0];leds[70]=palette[0];leds[68]=palette[3];leds[67]=palette[2];leds[66]=palette[2];leds[65]=palette[3];
+leds[80]=palette[0];leds[81]=palette[0];leds[83]=palette[3];leds[84]=palette[2];leds[85]=palette[2];leds[87]=palette[0];leds[88]=palette[0];leds[89]=palette[0];leds[91]=palette[3];leds[92]=palette[2];leds[93]=palette[3];leds[95]=palette[0];
+leds[111]=palette[0];leds[110]=palette[0];leds[109]=palette[0];leds[107]=palette[3];leds[106]=palette[2];leds[105]=palette[3];leds[101]=palette[3];leds[100]=palette[2];leds[99]=palette[3];leds[97]=palette[0];leds[96]=palette[0];
+leds[112]=palette[0];leds[113]=palette[0];leds[114]=palette[0];leds[115]=palette[0];leds[117]=palette[3];leds[118]=palette[3];leds[119]=palette[3];leds[120]=palette[3];leds[121]=palette[3];leds[122]=palette[3];leds[123]=palette[3];leds[125]=palette[0];leds[126]=palette[0];leds[127]=palette[0];
+leds[143]=palette[0];leds[142]=palette[0];leds[141]=palette[0];leds[139]=palette[3];leds[138]=palette[3];leds[137]=palette[3];leds[136]=palette[3];leds[135]=palette[3];leds[134]=palette[3];leds[133]=palette[3];leds[132]=palette[3];leds[130]=palette[0];leds[129]=palette[0];leds[128]=palette[0];
+leds[144]=palette[0];leds[145]=palette[0];leds[147]=palette[3];leds[148]=palette[3];leds[150]=palette[3];leds[151]=palette[3];leds[152]=palette[3];leds[153]=palette[3];leds[155]=palette[3];leds[156]=palette[3];leds[158]=palette[0];leds[159]=palette[0];
+leds[175]=palette[0];leds[174]=palette[0];leds[172]=palette[3];leds[171]=palette[3];leds[169]=palette[3];leds[168]=palette[3];leds[167]=palette[3];leds[166]=palette[3];leds[164]=palette[3];leds[163]=palette[3];leds[161]=palette[0];leds[160]=palette[0];
+leds[176]=palette[0];leds[177]=palette[0];leds[179]=palette[3];leds[180]=palette[2];leds[181]=palette[2];leds[182]=palette[3];leds[183]=palette[3];leds[184]=palette[3];leds[185]=palette[3];leds[186]=palette[2];leds[187]=palette[2];leds[188]=palette[3];leds[190]=palette[0];leds[191]=palette[0];
+leds[207]=palette[0];leds[203]=palette[3];leds[202]=palette[3];leds[201]=palette[3];leds[198]=palette[3];leds[197]=palette[3];leds[196]=palette[3];leds[192]=palette[0];
+leds[209]=palette[3];leds[210]=palette[3];leds[212]=palette[3];leds[213]=palette[3];leds[214]=palette[3];leds[215]=palette[3];leds[216]=palette[3];leds[217]=palette[3];leds[218]=palette[3];leds[219]=palette[3];leds[221]=palette[3];leds[222]=palette[3];
+leds[238]=palette[3];leds[237]=palette[3];leds[226]=palette[3];leds[225]=palette[3];
+leds[244]=palette[3];leds[245]=palette[3];leds[246]=palette[3];leds[247]=palette[3];leds[248]=palette[3];leds[249]=palette[3];leds[250]=palette[3];leds[251]=palette[3];
       break;
     default: // 404 file not found
       leds[19] = CRGB::Red; leds[22] = CRGB::Red; leds[23] = CRGB::Red; leds[24] = CRGB::Red; leds[30] = CRGB::Red;
@@ -213,25 +238,30 @@ void setup() {
 }
 
 void loop() {
-  FastLED.clear();
-  drawImage('p', pumpkin);
-  moveEyes();
-  FastLED.show();
-  delay(random(200, 600));
-  delay(2000);
+//  FastLED.clear();
+//  drawImage('p', pumpkin);
+//  moveEyes();
+//  FastLED.show();
+//  delay(random(200, 600));
+//  delay(2000);
 
-  FastLED.clear();
-  drawImage('b', batman);
-  FastLED.show();
-  delay(2000);
-
-  FastLED.clear();
-  drawImage('x', batman);
-  FastLED.show();
-  delay(2000);
+//  FastLED.clear();
+//  drawImage('b', batman);
+//  FastLED.show();
+//  delay(2000);
+//
+//  FastLED.clear();
+//  drawImage('x', batman);
+//  FastLED.show();
+//  delay(2000);
 
   FastLED.clear();
   drawImage('e', egg);
   FastLED.show();
   delay(2000);
+
+  FastLED.clear();
+  drawImage('r', rabbit);
+  FastLED.show();
+  delay(1200);
 }
