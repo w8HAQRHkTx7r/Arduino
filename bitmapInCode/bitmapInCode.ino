@@ -40,6 +40,15 @@ CRGB egg[] {
   CRGB(0, 103, 0),
 };
 
+CRGB donald[] = {
+CRGB(111,25,122),    // purple background 
+CRGB(51,62,122),     // blue at 
+CRGB::White,         // white face 
+CRGB(186, 191, 250), // lavender eyeball 
+CRGB(239, 149, 65),  // orange bill  
+CRGB(229, 108, 105), // salmon mouth 
+};
+
 CRGB Error[] = {
   CRGB(255, 91, 0),
   CRGB::Green,
