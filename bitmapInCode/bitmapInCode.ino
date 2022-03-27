@@ -12,7 +12,7 @@
 #define DATA_PIN     3
 #define CLOCK_PIN   13
 #define PAUSE       10
-#define BRIGHTNESS 20
+#define BRIGHTNESS  10
 #define VOLTS        5
 #define MAX_mAMPS  500
 
@@ -27,11 +27,19 @@ CRGB pumpkin[] = {
   CRGB::Yellow,
 };
 CRGB batman[] = {
-  CRGB(255, 91, 0),
-  CRGB::Green,
-  CRGB::White,
+  CRGB(0, 91, 255),
   CRGB::Yellow,
 };
+CRGB egg[] {
+  CRGB::White,
+  CRGB(0, 79, 97),
+  CRGB(255, 91,  0),
+  CRGB(222, 57, 105),
+  CRGB(209, 0, 0),
+  CRGB(0, 96, 47),
+  CRGB(0, 103, 0),
+};
+
 CRGB Error[] = {
   CRGB(255, 91, 0),
   CRGB::Green,
@@ -90,6 +98,24 @@ void drawImage(char pattern, CRGB palette[]) {
       leds[208] = palette[0]; leds[209] = palette[0]; leds[210] = palette[0]; leds[211] = palette[0]; leds[212] = palette[0]; leds[213] = palette[0]; leds[215] = palette[0]; leds[216] = palette[0]; leds[217] = palette[0]; leds[218] = palette[0]; leds[219] = palette[0]; leds[220] = palette[0]; leds[221] = palette[0]; leds[222] = palette[0]; leds[223] = palette[0];
       leds[239] = palette[0]; leds[238] = palette[0]; leds[237] = palette[0]; leds[236] = palette[0]; leds[235] = palette[0]; leds[234] = palette[0]; leds[233] = palette[0]; leds[232] = palette[0]; leds[231] = palette[0]; leds[230] = palette[0]; leds[229] = palette[0]; leds[228] = palette[0]; leds[227] = palette[0]; leds[226] = palette[0]; leds[225] = palette[0]; leds[224] = palette[0];
       leds[240] = palette[0]; leds[241] = palette[0]; leds[242] = palette[0]; leds[243] = palette[0]; leds[244] = palette[0]; leds[245] = palette[0]; leds[246] = palette[0]; leds[247] = palette[0]; leds[248] = palette[0]; leds[249] = palette[0]; leds[250] = palette[0]; leds[251] = palette[0]; leds[252] = palette[0]; leds[253] = palette[0]; leds[254] = palette[0]; leds[255] = palette[0];
+      break;
+    case 'e': // egg
+      leds[15] = palette[1]; leds[14] = palette[1]; leds[13] = palette[1]; leds[12] = palette[1]; leds[11] = palette[1]; leds[10] = palette[1]; leds[5] = palette[1]; leds[4] = palette[1]; leds[3] = palette[1]; leds[2] = palette[1]; leds[1] = palette[1]; leds[0] = palette[1];
+      leds[16] = palette[1]; leds[17] = palette[1]; leds[18] = palette[1]; leds[19] = palette[1]; leds[20] = palette[1]; leds[22] = palette[0]; leds[23] = palette[0]; leds[24] = palette[0]; leds[25] = palette[0]; leds[27] = palette[1]; leds[28] = palette[1]; leds[29] = palette[1]; leds[30] = palette[1]; leds[31] = palette[1];
+      leds[47] = palette[1]; leds[46] = palette[1]; leds[45] = palette[1]; leds[44] = palette[1]; leds[42] = palette[2]; leds[41] = palette[0]; leds[40] = palette[0]; leds[39] = palette[0]; leds[38] = palette[3]; leds[37] = palette[3]; leds[35] = palette[1]; leds[34] = palette[1]; leds[33] = palette[1]; leds[32] = palette[1];
+      leds[48] = palette[1]; leds[49] = palette[1]; leds[50] = palette[1]; leds[52] = palette[2]; leds[53] = palette[2]; leds[54] = palette[2]; leds[55] = palette[0]; leds[56] = palette[0]; leds[57] = palette[3]; leds[58] = palette[3]; leds[59] = palette[3]; leds[61] = palette[1]; leds[62] = palette[1]; leds[63] = palette[1];
+      leds[79] = palette[1]; leds[78] = palette[1]; leds[77] = palette[1]; leds[75] = palette[2]; leds[74] = palette[2]; leds[73] = palette[2]; leds[72] = palette[0]; leds[71] = palette[0]; leds[70] = palette[3]; leds[69] = palette[3]; leds[68] = palette[3]; leds[66] = palette[1]; leds[65] = palette[1]; leds[64] = palette[1];
+      leds[80] = palette[1]; leds[81] = palette[1]; leds[83] = palette[2]; leds[84] = palette[2]; leds[85] = palette[2]; leds[86] = palette[2]; leds[87] = palette[0]; leds[88] = palette[0]; leds[89] = palette[0]; leds[90] = palette[3]; leds[91] = palette[3]; leds[92] = palette[3]; leds[94] = palette[1]; leds[95] = palette[1];
+      leds[111] = palette[1]; leds[110] = palette[1]; leds[108] = palette[2]; leds[107] = palette[2]; leds[106] = palette[2]; leds[105] = palette[0]; leds[104] = palette[0]; leds[103] = palette[0]; leds[102] = palette[0]; leds[101] = palette[0]; leds[100] = palette[0]; leds[99] = palette[0]; leds[97] = palette[1]; leds[96] = palette[1];
+      leds[112] = palette[1]; leds[114] = palette[0]; leds[115] = palette[0]; leds[116] = palette[0]; leds[117] = palette[0]; leds[118] = palette[0]; leds[119] = palette[5]; leds[120] = palette[5]; leds[121] = palette[5]; leds[122] = palette[0]; leds[123] = palette[0]; leds[124] = palette[0]; leds[125] = palette[0]; leds[127] = palette[1];
+      leds[143] = palette[1]; leds[141] = palette[0]; leds[140] = palette[0]; leds[139] = palette[0]; leds[138] = palette[0]; leds[137] = palette[5]; leds[136] = palette[5]; leds[135] = palette[5]; leds[134] = palette[5]; leds[133] = palette[5]; leds[132] = palette[0]; leds[131] = palette[0]; leds[130] = palette[0]; leds[128] = palette[1];
+      leds[144] = palette[1]; leds[146] = palette[6]; leds[147] = palette[6]; leds[148] = palette[0]; leds[149] = palette[0]; leds[150] = palette[5]; leds[151] = palette[5]; leds[152] = palette[5]; leds[153] = palette[5]; leds[154] = palette[5]; leds[155] = palette[0]; leds[156] = palette[0]; leds[157] = palette[0]; leds[159] = palette[1];
+      leds[175] = palette[1]; leds[173] = palette[6]; leds[172] = palette[6]; leds[171] = palette[6]; leds[170] = palette[0]; leds[169] = palette[5]; leds[168] = palette[5]; leds[167] = palette[5]; leds[166] = palette[5]; leds[165] = palette[5]; leds[164] = palette[0]; leds[163] = palette[4]; leds[162] = palette[4]; leds[160] = palette[1];
+      leds[176] = palette[1]; leds[177] = palette[1]; leds[179] = palette[6]; leds[180] = palette[6]; leds[181] = palette[0]; leds[182] = palette[0]; leds[183] = palette[5]; leds[184] = palette[5]; leds[185] = palette[5]; leds[186] = palette[0]; leds[187] = palette[4]; leds[188] = palette[4]; leds[190] = palette[1]; leds[191] = palette[1];
+      leds[207] = palette[1]; leds[206] = palette[1]; leds[204] = palette[6]; leds[203] = palette[6]; leds[202] = palette[0]; leds[201] = palette[0]; leds[200] = palette[0]; leds[199] = palette[0]; leds[198] = palette[0]; leds[197] = palette[0]; leds[196] = palette[4]; leds[195] = palette[4]; leds[193] = palette[1]; leds[192] = palette[1];
+      leds[208] = palette[1]; leds[209] = palette[1]; leds[210] = palette[1]; leds[212] = palette[0]; leds[213] = palette[0]; leds[214] = palette[0]; leds[215] = palette[0]; leds[216] = palette[0]; leds[217] = palette[0]; leds[218] = palette[0]; leds[219] = palette[4]; leds[221] = palette[1]; leds[222] = palette[1]; leds[223] = palette[1];
+      leds[239] = palette[1]; leds[238] = palette[1]; leds[237] = palette[1]; leds[236] = palette[1]; leds[233] = palette[0]; leds[232] = palette[0]; leds[231] = palette[0]; leds[230] = palette[0]; leds[227] = palette[1]; leds[226] = palette[1]; leds[225] = palette[1]; leds[224] = palette[1];
+      leds[240] = palette[1]; leds[241] = palette[1]; leds[242] = palette[1]; leds[243] = palette[1]; leds[244] = palette[1]; leds[245] = palette[1]; leds[250] = palette[1]; leds[251] = palette[1]; leds[252] = palette[1]; leds[253] = palette[1]; leds[254] = palette[1]; leds[255] = palette[1];
       break;
     default: // 404 file not found
       leds[19] = CRGB::Red; leds[22] = CRGB::Red; leds[23] = CRGB::Red; leds[24] = CRGB::Red; leds[30] = CRGB::Red;
@@ -178,16 +204,25 @@ void setup() {
 }
 
 void loop() {
+  FastLED.clear();
+  drawImage('p', pumpkin);
   moveEyes();
   FastLED.show();
   delay(random(200, 600));
   delay(2000);
 
+  FastLED.clear();
   drawImage('b', batman);
   FastLED.show();
   delay(2000);
 
+  FastLED.clear();
   drawImage('x', batman);
+  FastLED.show();
+  delay(2000);
+
+  FastLED.clear();
+  drawImage('e', egg);
   FastLED.show();
   delay(2000);
 }
