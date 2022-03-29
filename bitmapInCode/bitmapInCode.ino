@@ -238,22 +238,22 @@ void setup() {
 }
 
 void loop() {
-//  FastLED.clear();
-//  drawImage('p', pumpkin);
-//  moveEyes();
-//  FastLED.show();
-//  delay(random(200, 600));
-//  delay(2000);
+  FastLED.clear();
+  drawImage('p', pumpkin);
+  moveEyes();
+  FastLED.show();
+  delay(random(200, 600));
+  delay(2000);
 
-//  FastLED.clear();
-//  drawImage('b', batman);
-//  FastLED.show();
-//  delay(2000);
-//
-//  FastLED.clear();
-//  drawImage('x', batman);
-//  FastLED.show();
-//  delay(2000);
+  FastLED.clear();
+  drawImage('b', batman);
+  FastLED.show();
+  delay(2000);
+
+  FastLED.clear();
+  drawImage('x', batman);
+  FastLED.show();
+  delay(2000);
 
   FastLED.clear();
   drawImage('e', egg);
@@ -263,5 +263,5 @@ void loop() {
   FastLED.clear();
   drawImage('r', rabbit);
   FastLED.show();
-  delay(1200);
+  delay(2000);
 }
