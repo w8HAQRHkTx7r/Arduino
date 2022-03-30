@@ -4,68 +4,113 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_NeoMatrix.h>
 #include <Adafruit_NeoPixel.h>
+
+#include <fonts/FreeSerifBold9pt7b.h>
+
 #ifndef PSTR
- #define PSTR // Make Arduino Due happy
+#define PSTR // Make Arduino Due happy
 #endif
 
 #define PIN 3
 
-// MATRIX DECLARATION:
-// Parameter 1 = width of NeoPixel matrix
-// Parameter 2 = height of matrix
-// Parameter 3 = pin number (most are valid)
-// Parameter 4 = matrix layout flags, add together as needed:
-//   NEO_MATRIX_TOP, NEO_MATRIX_BOTTOM, NEO_MATRIX_LEFT, NEO_MATRIX_RIGHT:
-//     Position of the FIRST LED in the matrix; pick two, e.g.
-//     NEO_MATRIX_TOP + NEO_MATRIX_LEFT for the top-left corner.
-//   NEO_MATRIX_ROWS, NEO_MATRIX_COLUMNS: LEDs are arranged in horizontal
-//     rows or in vertical columns, respectively; pick one or the other.
-//   NEO_MATRIX_PROGRESSIVE, NEO_MATRIX_ZIGZAG: all rows/columns proceed
-//     in the same order, or alternate lines reverse direction; pick one.
-//   See example below for these values in action.
-// Parameter 5 = pixel type flags, add together as needed:
-//   NEO_KHZ800  800 KHz bitstream (most NeoPixel products w/WS2812 LEDs)
-//   NEO_KHZ400  400 KHz (classic 'v1' (not v2) FLORA pixels, WS2811 drivers)
-//   NEO_GRB     Pixels are wired for GRB bitstream (most NeoPixel products)
-//   NEO_GRBW    Pixels are wired for GRBW bitstream (RGB+W NeoPixel products)
-//   NEO_RGB     Pixels are wired for RGB bitstream (v1 FLORA pixels, not v2)
+// Color definitions
+#define BLACK    0x0000
+#define BLUE     0x001F
+#define RED      0xF800
+#define GREEN    0x07E0
+#define CYAN     0x07FF
+#define MAGENTA  0xF81F
+#define YELLOW   0xFFE0
+#define WHITE    0xFFFF
 
 
-// Example for NeoPixel Shield.  In this application we'd like to use it
-// as a 5x8 tall matrix, with the USB port positioned at the top of the
-// Arduino.  When held that way, the first pixel is at the top right, and
-// lines are arranged in columns, progressive order.  The shield uses
-// 800 KHz (v2) pixels that expect GRB color data.
 Adafruit_NeoMatrix matrix = Adafruit_NeoMatrix(16, 16, PIN,
-  NEO_MATRIX_TOP     + NEO_MATRIX_RIGHT +
-  NEO_MATRIX_ROWS + NEO_MATRIX_ZIGZAG,
-  NEO_GRB            + NEO_KHZ800);
+                            NEO_MATRIX_TOP     + NEO_MATRIX_RIGHT +
+                            NEO_MATRIX_ROWS + NEO_MATRIX_ZIGZAG,
+                            NEO_GRB            + NEO_KHZ800);
 
 const uint16_t colors[] = {
-  matrix.Color(255, 0, 0), matrix.Color(0, 255, 0), matrix.Color(0, 0, 255) };
+  matrix.Color(255, 0, 0), matrix.Color(0, 255, 0), matrix.Color(0, 0, 255)
+};
 
 void setup() {
   matrix.begin();
   matrix.setTextWrap(false);
-  matrix.setBrightness(40);
+  matrix.setBrightness(10);
   matrix.setTextColor(colors[0]);
-  Serial.begin(9600);
-  Serial.println("setup");
 }
 
 int x    = matrix.width();
 int pass = 0;
 
 void loop() {
-  Serial.println("loop");
   matrix.fillScreen(0);
-  matrix.setCursor(x, 0);
-  matrix.print(F("Howdy"));
-  if(--x < -36) {
-    x = matrix.width();
-    if(++pass >= 3) pass = 0;
-    matrix.setTextColor(colors[pass]);
-  }
-  matrix.show();
-  delay(100);
+  // Scroll text
+    matrix.setCursor(x, 5);
+    matrix.print(F("Michael G. Macewich"));
+    if(--x < -36) {
+      x = matrix.width();
+      if(++pass >= 3) pass = 0;
+      matrix.setTextColor(colors[pass]);
+    }
+    matrix.show();
+    delay(50);
+
+  // Fill random pixels
+  //  matrix.show();
+  //  for (int i=0; i<256; i++) {
+  //    matrix.drawPixel(random(0,16),random(0,16), RED);
+  //    matrix.show();
+
+  //Draw polyline
+//  matrix.drawLine(random(0, 16), random(0, 16), random(0, 16), random(0, 16), BLUE);
+//  matrix.drawLine(random(0, 16), random(0, 16), random(0, 16), random(0, 16), RED);
+//  matrix.drawLine(random(0, 16), random(0, 16), random(0, 16), random(0, 16), WHITE);
+//  matrix.drawLine(random(0, 16), random(0, 16), random(0, 16), random(0, 16), CYAN);
+//  matrix.drawLine(random(0, 16), random(0, 16), random(0, 16), random(0, 16), GREEN);
+//  matrix.show();
+//  delay(1000);
+
+  // Draw vertical and horizontal fast
+//  matrix.drawFastVLine(random(0,16), 0, 15, RED);
+//  matrix.drawFastHLine(0, random(0,16), 15, BLUE);
+//  matrix.show();
+//  delay(5);
+
+// Draw rectangle
+// Fill rectangle
+//matrix.fillRect(random(0,16), random(0,16), random(3,14), random(3,14), GREEN);
+//matrix.drawRect(random(0,16), random(0,16), random(16-random(0,14)), random(16-random(0,14)), RED);
+//matrix.show();
+//delay(1000);
+
+// Draw,fill circles
+//void drawCircle(uint16_t x0, uint16_t y0, uint16_t r, uint16_t color);
+//void fillCircle(uint16_t x0, uint16_t y0, uint16_t r, uint16_t color);
+
+// Draw, Fill Rounded Rectangles
+//void drawRoundRect(uint16_t x0, uint16_t y0, uint16_t w, uint16_t h, uint16_t radius, uint16_t color);
+//void fillRoundRect(uint16_t x0, uint16_t y0, uint16_t w, uint16_t h, uint16_t radius, uint16_t color);
+
+// Triangles
+//void drawTriangle(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color);
+//void fillTriangle(uint16_t x0, uint16_t y0, uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2, uint16_t color);
+
+// Characters
+//  matrix.setFont();
+//  matrix.drawChar(3, 6, '&', RED, BLACK, 1);
+//  matrix.show();
+//  delay(500);
+//  
+//  matrix.setCursor(0, 6);
+//  matrix.setTextColor(BLUE);
+////  matrix.setTextColor(uint16_t color, uint16_t backgroundcolor);
+//  matrix.setTextSize(1);
+//  matrix.setFont(&FreeSerifBold9pt7b);
+//  matrix.setTextWrap(false);
+//  matrix.print(F("53"));
+//  matrix.show();
+//  delay(1000);
+
+
 }
