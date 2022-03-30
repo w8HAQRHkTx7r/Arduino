@@ -48,7 +48,7 @@ void loop() {
   // Scroll text
     matrix.setCursor(x, 5);
     matrix.print(F("Michael G. Macewich"));
-    if(--x < -36) {
+    if(--x < -108) {
       x = matrix.width();
       if(++pass >= 3) pass = 0;
       matrix.setTextColor(colors[pass]);
