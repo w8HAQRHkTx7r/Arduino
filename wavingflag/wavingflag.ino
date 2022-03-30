@@ -339,7 +339,7 @@ void loop() {
     }
 
     // Rest of the flag
-    for (int col = 1; col <= 15; col++) {
+    for (int col = 1; col <= 14; col++) {
 
       int displacement = round(sin(radian / freq) * magnitude);
 
