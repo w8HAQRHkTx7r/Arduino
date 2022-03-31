@@ -12,7 +12,7 @@
 #define DATA_PIN     3
 #define CLOCK_PIN   13
 #define PAUSE       10
-#define BRIGHTNESS  100
+#define BRIGHTNESS  10
 #define VOLTS        5
 #define MAX_mAMPS  500
 
