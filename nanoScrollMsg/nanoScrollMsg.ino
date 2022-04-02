@@ -179,7 +179,7 @@ int mapScreenToMatrix(int row, int col) {
 
 void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
-  cereal();
+//  cereal();
   FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);  // GRB ordering is assumed
   FastLED.setMaxPowerInVoltsAndMilliamps(VOLTS, MAX_mAMPS);
   set_max_power_indicator_LED(LED_BUILTIN);

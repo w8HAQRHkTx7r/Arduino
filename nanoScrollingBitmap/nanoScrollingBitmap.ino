@@ -1,4 +1,5 @@
 // This program takes a bitmap array and scrolls it across an LED matrix
+// This still shows the last row repeated.
 
 #define FASTLED_INTERNAL
 #include <FastLED.h>
@@ -376,7 +377,7 @@ void loop() {
   delay(3000);
 
   scrollMatrixLeft(SPEED);
-  delay(1000);
+  delay(50);
 
   ukrainianFlag();
   delay(3000);

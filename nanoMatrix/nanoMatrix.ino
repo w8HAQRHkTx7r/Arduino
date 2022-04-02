@@ -1,3 +1,4 @@
+// This program displays a bitmap of a Ukrainian flag and a tryzub.
 #define FASTLED_INTERNAL
 #import "BitArray.h"
 #include <FastLED.h>
@@ -228,7 +229,7 @@ void setup() {
   pinMode(LED_BUILTIN, OUTPUT);
 
   if (DEBUG_BITMAP) {
-    cereal(); // begin Serial and wait until stable
+//    cereal(); // begin Serial and wait until stable
   }
 
   FastLED.addLeds<NEOPIXEL, DATA_PIN>(leds, NUM_LEDS);  // GRB ordering is assumed
@@ -251,6 +252,6 @@ void loop() {
   delay(DELAY);
   ukrainianFlag();
   delay(DELAY);
-//  scrollMatrixLeft(100);
-//  delay(DELAY);
+  scrollMatrixLeft(100);
+  delay(DELAY);
 }
