@@ -1,3 +1,16 @@
+// This program draws and animates a Ukrainian flag on a flagpole.
+// The flag is designed as a static rectangle with the upper half
+// blue and the lower half yellow.
+// A sin function is computed for x value (column number) in the 
+// image.  The function is stretched in x and y directions to fit the
+// animation within the matrix.  The function indicates how far up
+// or down those flag pixels should be raised or lowered -- displacement.
+// In the next frame of the animation, the function goes through a time
+// shift. This causes the sin wave to shift to the right by one column
+// The flag is redrawn using these new displacements.
+// At an appropriate frame rate, the flag appears to flutter in the
+// wind.
+
 #define FASTLED_INTERNAL
 #import "BitArray.h"
 #include <FastLED.h>
