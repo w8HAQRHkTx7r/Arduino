@@ -111,11 +111,8 @@ void setup() {
     Serial.println("Failed to add peer");
     return;
   }
-}
 
-void loop() {
   Serial.print(millis());
-  Serial.print(" Loop ");
 
   int door = digitalRead(26); // The switch must already have opened, because this woke up
   Serial.print("Door state is ");
@@ -142,6 +139,10 @@ void loop() {
     //If you were to use ext1, you would use it like
     //esp_sleep_enable_ext1_wakeup(BUTTON_PIN_BITMASK,ESP_EXT1_WAKEUP_ANY_HIGH);
 
+    // Suspend for a while to give the door a chance to close
+    // Perhaps this could be a timer sleep
+    // If wake from time, then sleep for ext0
+    delay(5000);
     //Go to sleep now
     Serial.println("Going to sleep now");
     esp_deep_sleep_start();
@@ -153,18 +154,49 @@ void loop() {
     digitalWrite(13, LOW);
     delay(2000);
   }
-  //  delay(500);
-  //  digitalWrite(13, LOW);
-  //  delay(2000);
-  //  esp_sleep_enable_ext0_wakeup(GPIO_NUM_33,1); //1 = High, 0 = Low
-  //
-  //  //If you were to use ext1, you would use it like
-  //  //esp_sleep_enable_ext1_wakeup(BUTTON_PIN_BITMASK,ESP_EXT1_WAKEUP_ANY_HIGH);
-  //
-  //  //Go to sleep now
-  //  Serial.println("Going to sleep now");
-  //  esp_deep_sleep_start();
-  //  Serial.println("This will never be printed");
-  //
 
+}
+
+void loop() {
+  Serial.println(millis());
+  delay(2000);
+  //  Serial.print(millis());
+  //  Serial.print(" Loop ");
+  //
+  //  int door = digitalRead(26); // The switch must already have opened, because this woke up
+  //  Serial.print("Door state is ");
+  //  Serial.println(door);
+  //  // So what's the point of reading the current state?
+  //  // Create test data
+  //  // Format structured data
+  //  myData.door = door;
+  //  tymeStamp += millis(); // Save current time to RTC RAM.
+  //  myData.tymeStamp = tymeStamp;
+  //  myData.bootCount = bootCount;
+  //
+  //  // Send message via ESP-NOW
+  //  digitalWrite(13, HIGH); // Flash the LED to indicate this code is running
+  //  esp_err_t result = esp_now_send(broadcastAddress, (uint8_t *) &myData, sizeof(myData));
+  //
+  //  if (result == ESP_OK) {
+  //    Serial.print("esp_now_send() OK ");
+  //    delay(500);
+  //    digitalWrite(13, LOW);
+  //    delay(2000);
+  //    esp_sleep_enable_ext0_wakeup(GPIO_NUM_26, 1); //1 = High, 0 = Low
+  //
+  //    //If you were to use ext1, you would use it like
+  //    //esp_sleep_enable_ext1_wakeup(BUTTON_PIN_BITMASK,ESP_EXT1_WAKEUP_ANY_HIGH);
+  //
+  //    //Go to sleep now
+  //    Serial.println("Going to sleep now");
+  //    esp_deep_sleep_start();
+  //    Serial.println("This will never be printed");
+  //  }
+  //  else {
+  //    Serial.print("esp_now_send() not OK ");
+  //    delay(500);
+  //    digitalWrite(13, LOW);
+  //    delay(2000);
+  //  }
 }
