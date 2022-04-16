@@ -12,6 +12,7 @@
 #include <WiFi.h>
 
 RTC_DATA_ATTR int bootCount = 0;
+RTC_DATA_ATTR unsigned long tymeStamp;
 
 // MAC Address of responder - edit as required
 //uint8_t broadcastAddress[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
@@ -115,16 +116,16 @@ void setup() {
 void loop() {
   Serial.print(millis());
   Serial.print(" Loop ");
-  
+
   int door = digitalRead(26); // The switch must already have opened, because this woke up
   Serial.print("Door state is ");
   Serial.println(door);
-  
   // So what's the point of reading the current state?
   // Create test data
   // Format structured data
   myData.door = door;
-  myData.tymeStamp = millis();
+  tymeStamp += millis(); // Save current time to RTC RAM.
+  myData.tymeStamp = tymeStamp;
   myData.bootCount = bootCount;
 
   // Send message via ESP-NOW
