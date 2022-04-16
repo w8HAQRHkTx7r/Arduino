@@ -13,33 +13,33 @@
 
 // Define a data structure
 typedef struct struct_message {
-  char a[32];
-  int b;
-  float c;
-  bool d;
+  unsigned long tymeStamp;
+  bool door;
+  int bootCount;
 } struct_message;
 
 // Create a structured object
 struct_message myData;
 
-
 // Callback function executed when data is received
 void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
   digitalWrite(13,HIGH);
-  memcpy(&myData, incomingData, sizeof(myData));
-  Serial.print("Data received: ");
-  Serial.println(len);
-  Serial.print("Character Value: ");
-  Serial.println(myData.a);
-  Serial.print("Integer Value: ");
-  Serial.println(myData.b);
-  Serial.print("Float Value: ");
-  Serial.println(myData.c);
-  Serial.print("Boolean Value: ");
-  Serial.println(myData.d);
-  Serial.println();
+  if (len > sizeof(myData)) {
+    Serial.println("Fatal error. Too much data");
+  } else {
+    memcpy(&myData, incomingData, sizeof(myData));
+    Serial.print("Bytes received: ");
+    Serial.print(len);
+    Serial.print(" tyme: ");
+    Serial.print(myData.tymeStamp);
+    Serial.print(" Door: ");
+    Serial.print(myData.door);
+    Serial.print(" Boots: ");
+    Serial.print(myData.bootCount);
+    Serial.println();
+  }
   delay(500);
-  digitalWrite(13,LOW);
+  digitalWrite(13,LOW);  
 }
 
 void setup() {
