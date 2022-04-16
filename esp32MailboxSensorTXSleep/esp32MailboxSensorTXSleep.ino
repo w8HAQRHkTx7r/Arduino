@@ -14,16 +14,21 @@
 RTC_DATA_ATTR int bootCount = 0;
 RTC_DATA_ATTR unsigned long tymeStamp;
 
-// MAC Address of responder - edit as required
-//uint8_t broadcastAddress[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
-//uint8_t broadcastAddress[] = {0x94, 0xB9, 0x7E, 0x79, 0xC7, 0xE4};
-uint8_t broadcastAddress[] = {0x94, 0xB9, 0x7E, 0x79, 0xC8, 0x28};
-//uint8_t broadcastAddress[] = {0x98, 0xCD, 0xAC, 0x51, 0xA9, 0x64};
+#define uS_TO_S_FACTOR    1000000ULL  /* Conversion factor for micro seconds to seconds */
 
+#define SECONDS_TO_SLEEP  60        /* Time ESP32 will go to sleep (in seconds) */
+
+#define FLASHY_FEEDBACK true  /* Flash the LED when transmitting to help debug
+                                 Set to false for production */
+
+// MAC Address of responder - edit as required
+const uint8_t broadcastAddress[] = {0x94, 0xB9, 0x7E, 0x79, 0xC8, 0x28};
+//const uint8_t broadcastAddress[] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF};
+//const uint8_t broadcastAddress[] = {0x94, 0xB9, 0x7E, 0x79, 0xC7, 0xE4};
+//const uint8_t broadcastAddress[] = {0x98, 0xCD, 0xAC, 0x51, 0xA9, 0x64};
 
 // Define a data structure
 typedef struct struct_message {
-  //  char a[32];
   unsigned long tymeStamp;
   bool door;
   int bootCount;
@@ -50,12 +55,23 @@ void print_wakeup_reason() {
 
   switch (wakeup_reason)
   {
-    case ESP_SLEEP_WAKEUP_EXT0 : Serial.println("Wakeup caused by external signal using RTC_IO"); break;
-    case ESP_SLEEP_WAKEUP_EXT1 : Serial.println("Wakeup caused by external signal using RTC_CNTL"); break;
-    case ESP_SLEEP_WAKEUP_TIMER : Serial.println("Wakeup caused by timer"); break;
-    case ESP_SLEEP_WAKEUP_TOUCHPAD : Serial.println("Wakeup caused by touchpad"); break;
-    case ESP_SLEEP_WAKEUP_ULP : Serial.println("Wakeup caused by ULP program"); break;
-    default : Serial.printf("Wakeup was not caused by deep sleep: %d\n", wakeup_reason); break;
+    case ESP_SLEEP_WAKEUP_EXT0  :
+      Serial.println("Wakeup caused by external signal using RTC_IO"); break;
+    case ESP_SLEEP_WAKEUP_EXT1  :
+      Serial.println("Wakeup caused by external signal using RTC_CNTL"); break;
+    case ESP_SLEEP_WAKEUP_TIMER : // If you woke because of a timer, register a pin timer and go right back to sleep;
+      Serial.println("Wakeup caused by timer");
+      Serial.println("Go to sleep now and wait for the door to open");
+      esp_sleep_enable_ext0_wakeup(GPIO_NUM_26, 1); //1 = High, 0 = Low
+      esp_deep_sleep_start();
+      Serial.println("You should not have gotten this far");
+      break;
+    case ESP_SLEEP_WAKEUP_TOUCHPAD :
+      Serial.println("Wakeup caused by touchpad"); break;
+    case ESP_SLEEP_WAKEUP_ULP :
+      Serial.println("Wakeup caused by ULP program"); break;
+    default :
+      Serial.printf("Wakeup was not caused by deep sleep: %d\n", wakeup_reason); break;
   }
 }
 
@@ -77,13 +93,17 @@ void setup() {
   while (!Serial) {
     ;
   }
-  //Increment boot number and print it every reboot
+
+  // Increment boot number and print it every reboot
   ++bootCount;
   Serial.println("Boot number: " + String(bootCount));
 
-  pinMode(13, OUTPUT);       // External confirmation
+  // Initialize pins
+  if (FLASHY_FEEDBACK) {
+    pinMode(13, OUTPUT);       // External confirmation
+    digitalWrite(13, LOW);     // Turn LED off
+  }
   pinMode(26, INPUT_PULLUP); // Reed switch RTC pin number
-  digitalWrite(13, LOW);     // Turn LED off
 
   // Set ESP32 as a Wi-Fi Station
   WiFi.mode(WIFI_STA);
@@ -112,91 +132,45 @@ void setup() {
     return;
   }
 
-  Serial.print(millis());
-
-  int door = digitalRead(26); // The switch must already have opened, because this woke up
-  Serial.print("Door state is ");
-  Serial.println(door);
-  // So what's the point of reading the current state?
-  // Create test data
   // Format structured data
+  int door = digitalRead(26); // The switch must already have opened, because this woke up
+  Serial.print(" Door state is "); Serial.println(door);
   myData.door = door;
-  tymeStamp += millis(); // Save current time to RTC RAM.
+  tymeStamp += millis(); // Save cumulative awake-time to RTC RAM.
   myData.tymeStamp = tymeStamp;
   myData.bootCount = bootCount;
 
   // Send message via ESP-NOW
-  digitalWrite(13, HIGH); // Flash the LED to indicate this code is running
+  if (FLASHY_FEEDBACK) {
+    digitalWrite(13, HIGH); // Flash the LED to indicate this code is running
+  }
   esp_err_t result = esp_now_send(broadcastAddress, (uint8_t *) &myData, sizeof(myData));
 
   if (result == ESP_OK) {
     Serial.print("esp_now_send() OK ");
-    delay(500);
-    digitalWrite(13, LOW);
-    delay(2000);
-    esp_sleep_enable_ext0_wakeup(GPIO_NUM_26, 1); //1 = High, 0 = Low
+    if (FLASHY_FEEDBACK) {
+      delay(500);
+      digitalWrite(13, LOW);
+    }
 
-    //If you were to use ext1, you would use it like
-    //esp_sleep_enable_ext1_wakeup(BUTTON_PIN_BITMASK,ESP_EXT1_WAKEUP_ANY_HIGH);
-
-    // Suspend for a while to give the door a chance to close
-    // Perhaps this could be a timer sleep
-    // If wake from time, then sleep for ext0
-    delay(5000);
-    //Go to sleep now
-    Serial.println("Going to sleep now");
+    esp_sleep_enable_timer_wakeup(SECONDS_TO_SLEEP * uS_TO_S_FACTOR);
+    Serial.print("Go to sleep now and wake up in "); Serial.print(SECONDS_TO_SLEEP); Serial.println(" seconds");
     esp_deep_sleep_start();
-    Serial.println("This will never be printed");
-  }
-  else {
-    Serial.print("esp_now_send() not OK ");
-    delay(500);
-    digitalWrite(13, LOW);
-    delay(2000);
-  }
 
+  } else {
+
+    Serial.print("esp_now_send() not OK ");
+    // Make sure the LED stays lit for long enough to see before going low
+    if (FLASHY_FEEDBACK) {
+      delay(500);
+      digitalWrite(13, LOW);
+    }
+  }
 }
 
 void loop() {
+  // If we get to here, something went wrong
+  // How to get word to Mikey?!
   Serial.println(millis());
   delay(2000);
-  //  Serial.print(millis());
-  //  Serial.print(" Loop ");
-  //
-  //  int door = digitalRead(26); // The switch must already have opened, because this woke up
-  //  Serial.print("Door state is ");
-  //  Serial.println(door);
-  //  // So what's the point of reading the current state?
-  //  // Create test data
-  //  // Format structured data
-  //  myData.door = door;
-  //  tymeStamp += millis(); // Save current time to RTC RAM.
-  //  myData.tymeStamp = tymeStamp;
-  //  myData.bootCount = bootCount;
-  //
-  //  // Send message via ESP-NOW
-  //  digitalWrite(13, HIGH); // Flash the LED to indicate this code is running
-  //  esp_err_t result = esp_now_send(broadcastAddress, (uint8_t *) &myData, sizeof(myData));
-  //
-  //  if (result == ESP_OK) {
-  //    Serial.print("esp_now_send() OK ");
-  //    delay(500);
-  //    digitalWrite(13, LOW);
-  //    delay(2000);
-  //    esp_sleep_enable_ext0_wakeup(GPIO_NUM_26, 1); //1 = High, 0 = Low
-  //
-  //    //If you were to use ext1, you would use it like
-  //    //esp_sleep_enable_ext1_wakeup(BUTTON_PIN_BITMASK,ESP_EXT1_WAKEUP_ANY_HIGH);
-  //
-  //    //Go to sleep now
-  //    Serial.println("Going to sleep now");
-  //    esp_deep_sleep_start();
-  //    Serial.println("This will never be printed");
-  //  }
-  //  else {
-  //    Serial.print("esp_now_send() not OK ");
-  //    delay(500);
-  //    digitalWrite(13, LOW);
-  //    delay(2000);
-  //  }
 }
