@@ -82,6 +82,7 @@ CRGB eyeColor = pumpkin[2];
 void drawImage(char pattern, CRGB palette[]) {
   switch (pattern) {
     case 'w': // Workshop 88 logo
+      leds[11]=palette[0];leds[10]=palette[0];leds[9]=palette[0];leds[8]=palette[0];leds[7]=palette[0];leds[6]=palette[0];leds[5]=palette[0];leds[4]=palette[0];
       leds[17] = palette[0]; leds[18] = palette[0]; leds[19] = palette[0]; leds[20] = palette[0]; leds[21] = palette[0]; leds[22] = palette[0]; leds[23] = palette[0]; leds[24] = palette[0]; leds[25] = palette[0]; leds[26] = palette[0]; leds[27] = palette[0]; leds[28] = palette[0]; leds[29] = palette[0]; leds[30] = palette[0];
       leds[47] = palette[0]; leds[46] = palette[0]; leds[45] = palette[0]; leds[44] = palette[0]; leds[43] = palette[0]; leds[42] = palette[0]; leds[41] = palette[0]; leds[40] = palette[0]; leds[39] = palette[0]; leds[38] = palette[0]; leds[37] = palette[0]; leds[36] = palette[0]; leds[35] = palette[0]; leds[34] = palette[0]; leds[33] = palette[0]; leds[32] = palette[0];
       leds[48] = palette[1]; leds[49] = palette[1]; leds[50] = palette[1]; leds[51] = palette[0]; leds[52] = palette[0]; leds[53] = palette[0]; leds[54] = palette[0]; leds[55] = palette[1]; leds[56] = palette[1]; leds[57] = palette[0]; leds[58] = palette[0]; leds[59] = palette[0]; leds[60] = palette[1]; leds[61] = palette[1]; leds[62] = palette[1]; leds[63] = palette[1];
