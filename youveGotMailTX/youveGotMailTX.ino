@@ -16,7 +16,7 @@ RTC_DATA_ATTR unsigned long tymeStamp;
 
 #define uS_TO_S_FACTOR    1000000ULL  /* Conversion factor for micro seconds to seconds */
 
-#define SECONDS_TO_SLEEP  60        /* Time ESP32 will go to sleep (in seconds) */
+#define SECONDS_TO_SLEEP  15        /* Time ESP32 will go to sleep (in seconds) */
 
 #define FLASHY_FEEDBACK true  /* Flash the LED when transmitting to help debug
                                  Set to false for production */

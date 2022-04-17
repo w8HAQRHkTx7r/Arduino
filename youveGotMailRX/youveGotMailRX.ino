@@ -58,7 +58,8 @@ void setup() {
   ESP32PWM::allocateTimer(2);
   ESP32PWM::allocateTimer(3);
   flagServo.setPeriodHertz(50);
-  flagServo.attach(servoPin, 1000, 2000);
+  flagServo.attach(servoPin, 500, 2400);
+  Serial.println("Zero out flag");
   flagServo.write(0);
   
   // Set ESP32 as a Wi-Fi Station
@@ -79,5 +80,5 @@ void setup() {
 }
  
 void loop() {
-
+  
 }
