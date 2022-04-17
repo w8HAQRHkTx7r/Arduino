@@ -10,6 +10,7 @@
 // Include Libraries
 #include <esp_now.h>
 #include <WiFi.h>
+#include <ESP32Servo.h>
 
 // Define a data structure
 typedef struct struct_message {
@@ -20,6 +21,9 @@ typedef struct struct_message {
 
 // Create a structured object
 struct_message myData;
+
+Servo flagServo;
+const int servoPin = 18;
 
 // Callback function executed when data is received
 void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
@@ -37,6 +41,7 @@ void OnDataRecv(const uint8_t *mac, const uint8_t *incomingData, int len) {
     Serial.print(" Boots: ");
     Serial.print(myData.bootCount);
     Serial.println();
+    flagServo.write(90);
   }
   delay(500);
   digitalWrite(13,LOW);  
@@ -47,6 +52,14 @@ void setup() {
   Serial.begin(115200);
   pinMode(13, OUTPUT);
   digitalWrite(13,LOW);
+
+  ESP32PWM::allocateTimer(0);
+  ESP32PWM::allocateTimer(1);
+  ESP32PWM::allocateTimer(2);
+  ESP32PWM::allocateTimer(3);
+  flagServo.setPeriodHertz(50);
+  flagServo.attach(servoPin, 1000, 2000);
+  flagServo.write(0);
   
   // Set ESP32 as a Wi-Fi Station
   WiFi.mode(WIFI_STA);
